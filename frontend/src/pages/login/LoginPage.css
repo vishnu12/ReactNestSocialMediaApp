@@ -1,0 +1,9 @@
+.main{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image:linear-gradient(to right, rgb(125, 144, 150), #839b5b);
+    background-size: cover;;
+}
