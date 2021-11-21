@@ -22,7 +22,10 @@ export class User{
     password:string
 
     @Prop({default:'https://www.google.com/search?q=user+icon+image&rlz=1C1CHBF_enIN801IN801&sxsrf=AOaemvKt80xuGDs5tNxunfKuCytBILJhzA:1632393760074&tbm=isch&source=iu&ictx=1&fir=DS4EgFyc5oiyuM%252C1m1tN_-LMeN0MM%252C_&vet=1&usg=AI4_-kTWzZFDlHzg6J4hOrkMQdsvqwnI4w&sa=X&ved=2ahUKEwix8c7R9JTzAhXG7XMBHeybBcwQ9QF6BAgSEAE#imgrc=DS4EgFyc5oiyuM'})
-    image:string
+    profilepic:string
+
+    @Prop({default:''})
+    coverpic:string
 
     @Prop({default:Role.USER})
     role:Role
@@ -59,6 +62,6 @@ UserSchema.methods.comparePassword = async function (
     candidatePassword: string,
   ) {
     const user = this as UserDocument;
-  
-    return bcrypt.compare(candidatePassword, user.password).catch((e) => false);
+    return await bcrypt.compare(candidatePassword, user.password);
+    
   };

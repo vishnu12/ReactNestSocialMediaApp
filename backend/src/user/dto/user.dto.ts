@@ -13,6 +13,7 @@ export interface RegisterDto{
 }
 
 export interface CreatedUserDto{
+    id?:string
     name:string
     email:string
     image?:string
@@ -24,6 +25,7 @@ export interface CreatedUserDto{
 
 export interface UserDataDto{
     id:string
+    name?:string
     email:string
     password:string,
     accessToken?:string,

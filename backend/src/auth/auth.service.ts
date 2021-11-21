@@ -38,7 +38,7 @@ export class AuthService {
    async validateUser(email:string,password:string){
       try {
         const userExists=await this.userService.findOne(email)
-        if(userExists && userExists.comparePassword(password)){
+        if(userExists && await userExists.comparePassword(password)){
           userExists.password=undefined
           return userExists
         }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { Login } from '../../components/login/Login'
 import './LoginPage.css'
 

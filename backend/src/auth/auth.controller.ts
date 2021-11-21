@@ -3,7 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { Response } from 'express';
 import { CreatedUserDto, RegisterDto } from 'src/user/dto/user.dto';
 import { AuthService } from './auth.service';
-import { IRequest } from './types/types';
+import { IRequest, ResData } from './types/types';
 
 @Controller()
 export class AuthController {
@@ -22,6 +22,7 @@ export class AuthController {
     async login(@Req() req:IRequest,@Res({ passthrough: true }) res:Response){
         const token=await this.authService.login(req.user)
         res.cookie('token',token)
+           .json(req.user)
     }
 
     @UseGuards(AuthGuard('jwt'))
@@ -35,10 +36,12 @@ export class AuthController {
       res.clearCookie('token')
     }
 
+
     @UseGuards(AuthGuard('google'))
     @Get('/google')
     async googleAuth(@Req() req:IRequest) {}
   
+
     @UseGuards(AuthGuard('google'))
     @Get('/google/redirect')
     async googleAuthRedirect(@Req() req:IRequest,@Res({ passthrough: true }) res:Response) {
@@ -50,7 +53,11 @@ export class AuthController {
         oAuthUser:true,
         image:req.user.picture
       } as RegisterDto
-      await this.authService.register(body)
+      const user=await this.authService.register(body)
       res.cookie('token',token)
+      res.redirect(302,'http://localhost:3000')
+       
     }
+  
+  
 }
