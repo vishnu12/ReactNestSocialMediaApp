@@ -18,7 +18,7 @@ export const Login:React.FC = () => {
 
   const dispatch=useDispatch()
   const navigate=useNavigate()
-  const {user,loading,error}=useSelector(state=>state.userLogin)
+  const {success,loading,error,user}=useSelector(state=>state.userLogin)
 
   const [values, setValues] = useState({
     email: '',
@@ -42,13 +42,12 @@ export const Login:React.FC = () => {
     e.preventDefault()
      window.open('http://localhost:5000/google','_self')
   }
- 
 
   useEffect(()=>{
-    if(user){
+    if(success){
      navigate('/')
     }
-  },[user])
+  },[success])
 
     return (
         <div className='login-form'>

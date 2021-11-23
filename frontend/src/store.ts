@@ -6,6 +6,7 @@ import { userLoginReducer, userRegisterReducer, UserState } from './reducers/use
 import { UserLoginState } from './action-types/user'
 
 
+
 const rootReducer=combineReducers({
    userLogin:userLoginReducer,
    userRegister:userRegisterReducer,
@@ -13,17 +14,16 @@ const rootReducer=combineReducers({
 
 export type RootState=ReturnType<typeof rootReducer>
 
-const userFromStorage=localStorage.getItem('user')?JSON.parse(`${localStorage.getItem('user')}`):null
 
-const initialState:Omit<RootState,'userRegister'>={
-    userLogin:{
-        user:userFromStorage,
-    }
-}
+// const initialState:Omit<RootState,'userRegister'>={
+//     userLogin:{
+//         user:{id:userIdFromCookie}
+//     }
+// }
 
 const middleware=[thunk]
 
-const store=createStore(rootReducer,initialState,composeWithDevTools(
+const store=createStore(rootReducer,composeWithDevTools(
     applyMiddleware(...middleware)
 ))
 

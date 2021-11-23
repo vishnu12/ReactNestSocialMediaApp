@@ -14,7 +14,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
           if(!data){
             return null;
         }
-        return data.access_token
+        return data.token.access_token
         }
       ]),
       ignoreExpiration: false,

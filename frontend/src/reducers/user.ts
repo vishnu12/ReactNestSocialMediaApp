@@ -1,5 +1,4 @@
 import {AnyAction} from 'redux'
-import {UserLoginState} from '../action-types/user'
 import {
     USER_LOGIN_FAIL,
     USER_LOGIN_SUCCESS,
@@ -11,19 +10,18 @@ import {
 } from '../constants/user'
 
 export interface UserState{
-    user:UserLoginState,
+    user:any,
     loading?:boolean,
-    error?:boolean
+    error?:boolean,
+    success?:boolean
 }
 
 const initialState:UserState={
-    user:{
-        name:'',
-        email:'',
-        id:'',
-    },
+    user:{},
     loading:false,
     error:false,
+    success:false,
+
 }
 
 export const userLoginReducer=(state=initialState,action:AnyAction)=>{
@@ -38,7 +36,8 @@ export const userLoginReducer=(state=initialState,action:AnyAction)=>{
         return{
             ...state,
             loading:false,
-            user:action.payload
+            success:true,
+            error:false
       
         }
       case USER_LOGIN_FAIL:
@@ -53,6 +52,7 @@ export const userLoginReducer=(state=initialState,action:AnyAction)=>{
             ...state,
             user:null,
             loading:false,
+            success:false,
             error:false
         }
       default:

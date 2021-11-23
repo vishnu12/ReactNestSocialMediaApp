@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React,{useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import './Navbar.css'
@@ -6,17 +6,23 @@ import {Navbar,Container,Nav,Button} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { logout } from '../../actions/user'
 import {useSelector} from '../../store'
+import readDataFromCookie from '../../helper'
 
 export const NavbarComp = () => {
   const dispatch = useDispatch()
-  const {user}=useSelector(state=>state.userLogin)
+  const {success}=useSelector(state=>state.userLogin)
   const navigate = useNavigate()
 
+  const [cookie, setCookie] = useState(readDataFromCookie())
+
+  console.log(cookie)
+
   useEffect(()=>{
-   if(!user){
+   readDataFromCookie() 
+   if(cookie===''||cookie==null){
      navigate('/login')
    }
-  },[user])
+  },[cookie])
   
     return (
         <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">

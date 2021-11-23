@@ -22,9 +22,8 @@ export const loginAction =
     (email: string, password: string): ThunkAction<void, RootState, undefined, AnyAction> => async (dispatch) => {
         dispatch({ type: USER_LOGIN_REQUEST })
         try {
-            const {data}=await axios.post(API_URL+'/auth/login', { email, password})
-            dispatch({ type: USER_LOGIN_SUCCESS,payload:data })
-            localStorage.setItem('user',JSON.stringify(data))
+             await axios.post(API_URL+'/auth/login', { email, password})
+             dispatch({ type: USER_LOGIN_SUCCESS})
             
         } catch (error) {
             dispatch({ type: USER_LOGIN_FAIL })
@@ -36,7 +35,6 @@ export const logout=():ThunkAction<void,RootState,undefined,AnyAction>=>async (d
      try{
         await axios.get(API_URL+'/auth/logout') 
         dispatch({type:USER_LOGOUT})
-        localStorage.removeItem('user')
      }catch(e){
 
      }

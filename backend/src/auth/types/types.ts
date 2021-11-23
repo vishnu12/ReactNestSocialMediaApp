@@ -8,5 +8,5 @@ export interface IRequest extends Request{
 
 export interface ResData{
     token:{access_token:string}| string
-    user:Omit<UserDataDto,'password'> | CreatedUserDto
+       id:string
 }

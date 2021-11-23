@@ -21,8 +21,12 @@ export class AuthController {
     @Post('auth/login')
     async login(@Req() req:IRequest,@Res({ passthrough: true }) res:Response){
         const token=await this.authService.login(req.user)
-        res.cookie('token',token)
-           .json(req.user)
+        const authData:ResData={
+            token,
+            id:req.user.id
+        }
+        res.cookie('token',authData)
+          
     }
 
     @UseGuards(AuthGuard('jwt'))
@@ -54,7 +58,11 @@ export class AuthController {
         image:req.user.picture
       } as RegisterDto
       const user=await this.authService.register(body)
-      res.cookie('token',token)
+      const authData:ResData={
+        token,
+        id:user.id
+      }
+      res.cookie('token',authData)
       res.redirect(302,'http://localhost:3000')
        
     }
