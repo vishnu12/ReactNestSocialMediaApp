@@ -13,7 +13,7 @@ export interface RegisterDto{
 }
 
 export interface CreatedUserDto{
-    id?:string
+    _id?:string
     name:string
     email:string
     image?:string

@@ -2,8 +2,7 @@ import {createStore,combineReducers,applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
 import {TypedUseSelectorHook,useSelector as useStoreSelector} from 'react-redux'
 import {composeWithDevTools} from 'redux-devtools-extension'
-import { userLoginReducer, userRegisterReducer, UserState } from './reducers/user'
-import { UserLoginState } from './action-types/user'
+import { userLoginReducer, userRegisterReducer } from './reducers/user'
 
 
 
@@ -14,10 +13,10 @@ const rootReducer=combineReducers({
 
 export type RootState=ReturnType<typeof rootReducer>
 
-
+// const userFromStorage=localStorage.getItem('user')?JSON.parse(`${localStorage.getItem('user')}`):null
 // const initialState:Omit<RootState,'userRegister'>={
 //     userLogin:{
-//         user:{id:userIdFromCookie}
+//         user:userFromStorage,
 //     }
 // }
 

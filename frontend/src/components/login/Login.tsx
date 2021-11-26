@@ -7,6 +7,8 @@ import {useSelector} from '../../store'
 import {useDispatch} from 'react-redux'
 import './Login.css'
 import { loginAction } from '../../actions/user'
+import {readDataFromCookie} from '../../helper'
+
 
 
 interface LoginInput{
@@ -18,7 +20,7 @@ export const Login:React.FC = () => {
 
   const dispatch=useDispatch()
   const navigate=useNavigate()
-  const {success,loading,error,user}=useSelector(state=>state.userLogin)
+  const {success,loading,error}=useSelector(state=>state.userLogin)
 
   const [values, setValues] = useState({
     email: '',
@@ -36,19 +38,22 @@ export const Login:React.FC = () => {
   function handleNormalLogin(e:React.MouseEvent<HTMLButtonElement, MouseEvent>){
     e.preventDefault()
     dispatch(loginAction(email,password))
+    
   }
 
  function handleGoogleLogin(e:React.MouseEvent<HTMLButtonElement, MouseEvent>){
-    e.preventDefault()
+     e.preventDefault()
      window.open('http://localhost:5000/google','_self')
   }
 
   useEffect(()=>{
     if(success){
+     readDataFromCookie() 
      navigate('/')
     }
   },[success])
 
+  
     return (
         <div className='login-form'>
     <Form className='form'>

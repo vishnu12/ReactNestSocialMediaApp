@@ -60,7 +60,7 @@ export class AuthController {
       const user=await this.authService.register(body)
       const authData:ResData={
         token,
-        id:user.id
+        id:user?._id
       }
       res.cookie('token',authData)
       res.redirect(302,'http://localhost:3000')

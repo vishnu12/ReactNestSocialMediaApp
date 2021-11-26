@@ -37,6 +37,7 @@ export const userLoginReducer=(state=initialState,action:AnyAction)=>{
             ...state,
             loading:false,
             success:true,
+            user:action.payload,
             error:false
       
         }
@@ -72,7 +73,8 @@ export const userRegisterReducer=(state=initialState,action:AnyAction)=>{
           return{
                 ...state,
                 loading:false,
-                user:action.payload
+                user:action.payload,
+                success:true,
           }
         case USER_REGISTER_FAIL:
           return{

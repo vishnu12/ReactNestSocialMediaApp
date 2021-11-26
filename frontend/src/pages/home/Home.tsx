@@ -5,11 +5,9 @@ import { NavbarComp } from '../../components/nav/Navbar'
 import { Posts } from '../../components/postloader/Posts'
 import { Sidebar } from '../../components/sidebar/Sidebar'
 import { Topbar } from '../../components/topbar/Topbar'
-import {useSelector} from '../../store'
 import './Home.css'
 
 export const Home = () => {
-
     return (
         <div className='home-main'>
             <NavbarComp />

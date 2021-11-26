@@ -11,32 +11,47 @@ import {
     USER_LOGOUT,
 } from '../constants/user'
 import { RootState } from '../store'
-import { UserLoginState } from '../action-types/user'
+import { NavigateFunction } from 'react-router'
+
 
 
 axios.defaults.withCredentials = true;
 
-const API_URL='http://localhost:5000'
+const API_URL = 'http://localhost:5000'
 
 export const loginAction =
     (email: string, password: string): ThunkAction<void, RootState, undefined, AnyAction> => async (dispatch) => {
         dispatch({ type: USER_LOGIN_REQUEST })
         try {
-             await axios.post(API_URL+'/auth/login', { email, password})
-             dispatch({ type: USER_LOGIN_SUCCESS})
-            
+            const {data}=await axios.post(API_URL + '/auth/login', { email, password })
+            dispatch({ type: USER_LOGIN_SUCCESS,payload:data })
+
         } catch (error) {
             dispatch({ type: USER_LOGIN_FAIL })
         }
     }
 
 
-export const logout=():ThunkAction<void,RootState,undefined,AnyAction>=>async (dispatch)=>{
-     try{
-        await axios.get(API_URL+'/auth/logout') 
-        dispatch({type:USER_LOGOUT})
-     }catch(e){
+export const registerAction =
+    (name: string, email: string, password: string): ThunkAction<void, RootState, undefined, AnyAction> => async (dispatch) => {
+        dispatch({ type: USER_REGISTER_REQUEST })
+        try {
+            const { data } = await axios.post(API_URL + '/auth/register', { name, email, password })
+            dispatch({ type: USER_REGISTER_SUCCESS, payload: data })
 
-     }
-     
-}    
+        } catch (error) {
+            dispatch({ type: USER_REGISTER_FAIL })
+        }
+    }
+
+export const logout = (cb:NavigateFunction): ThunkAction<void, RootState, undefined, AnyAction> => async (dispatch) => {
+    try {
+        await axios.get(API_URL + '/auth/logout')
+        dispatch({ type: USER_LOGOUT })
+        localStorage.removeItem('user')
+        cb('/login')
+    } catch (e) {
+
+    }
+
+}

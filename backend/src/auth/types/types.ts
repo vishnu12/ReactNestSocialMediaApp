@@ -8,5 +8,5 @@ export interface IRequest extends Request{
 
 export interface ResData{
     token:{access_token:string}| string
-       id:string
+       id?:string
 }
