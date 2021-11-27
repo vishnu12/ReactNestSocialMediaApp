@@ -1,20 +1,26 @@
-import React from 'react'
+import React,{useEffect} from 'react'
+import {useDispatch} from 'react-redux'
+import { getPostAction } from '../../actions/post'
+import {useSelector} from '../../store'
 import { Post } from '../post/Post'
 import './Posts.css'
 
 export const Posts = () => {
+    const dispatch = useDispatch()
+    const {success:createdSuccess}=useSelector(state=>state.createPost)
+    const {posts}=useSelector(state=>state.getPosts)
 
-    let arr:Array<number>=[1,2,3]
+   useEffect(()=>{
+       dispatch(getPostAction())
+   },[createdSuccess,dispatch])
+
     return (
         <div className='postloader-main'>
             {
-                arr.map((itm,index)=>(
-                    <Post image={'/images/cover.jpg'} 
-                    desc='
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, consequuntur.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, animi.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure, in.
-                    '
+                posts && posts.map((itm,index)=>(
+                    <Post image={itm.image} 
+                    desc={itm.description}
+                    key={index}
                     />
                 ))
             }

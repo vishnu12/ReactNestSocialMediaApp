@@ -18,6 +18,14 @@ export class PostService {
         }
     }
 
+   async getAllPosts():Promise<CreatePostDto[]>{
+       try {
+           return await this.postModel.find()
+       } catch (error) {
+           throw new HttpException(`${error}`,400)
+       }
+   } 
+
     async getPost(id:string):Promise<CreatePostDto>{
         try {
             return await this.postModel.findById(id)

@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreatedUserDto, RegisterDto } from './dto/user.dto';
 import { UserService } from './user.service';
 
@@ -6,5 +6,10 @@ import { UserService } from './user.service';
 export class UserController {
 
     constructor(private readonly userService:UserService){}
+
+    @Get('/:id')
+    findById(@Param('id') id:string){
+        return this.userService.findById(id);
+    }
 
 }

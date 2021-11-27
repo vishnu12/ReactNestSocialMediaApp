@@ -20,6 +20,10 @@ export class PostController {
       return this.postService.createPost(body)
     }
 
+    @Get()
+    getAllPosts(){
+      return this.postService.getAllPosts()
+    }
 
     @Get('/:id')
     getPosts(

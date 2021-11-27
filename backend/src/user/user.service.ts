@@ -16,4 +16,13 @@ export class UserService {
           throw new HttpException(`${error}`,400)
       }
     }
+
+    async findById(id:string){
+      try {
+          const user=await this.userModel.findById(id)
+          if(user) return user
+      } catch (error) {
+          throw new HttpException(`${error}`,400)
+      }
+    }
 }

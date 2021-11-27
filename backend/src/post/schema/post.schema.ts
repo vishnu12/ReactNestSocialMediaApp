@@ -8,8 +8,8 @@ export type PostDocument =Post & mongoose.Document
 
 @Schema()
 export class Post{
-    @Prop({required:true})
-    title:string
+    // @Prop({required:true})
+    // title:string
 
     @Prop()
     description:string

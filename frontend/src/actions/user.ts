@@ -9,9 +9,13 @@ import {
     USER_REGISTER_REQUEST,
     USER_REGISTER_SUCCESS,
     USER_LOGOUT,
+    GET_USER_SUCCESS,
+    GET_USER_FAIL,
+    GET_USER_REQUEST,
 } from '../constants/user'
 import { RootState } from '../store'
 import { NavigateFunction } from 'react-router'
+
 
 
 
@@ -51,7 +55,20 @@ export const logout = (cb:NavigateFunction): ThunkAction<void, RootState, undefi
         localStorage.removeItem('user')
         cb('/login')
     } catch (e) {
-
+      console.log(e)
     }
 
 }
+
+
+export const getUserAction =
+    (id:string): ThunkAction<void, RootState, undefined, AnyAction> => async (dispatch) => {
+        dispatch({ type: GET_USER_REQUEST })
+        try {
+            const { data } = await axios.get(API_URL + '/user/'+id)
+            dispatch({ type: GET_USER_SUCCESS, payload: data })
+
+        } catch (error) {
+            dispatch({ type: GET_USER_FAIL })
+        }
+    }

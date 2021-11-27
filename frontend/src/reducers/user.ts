@@ -1,4 +1,5 @@
 import {AnyAction} from 'redux'
+import { UserData } from '../action-types/user'
 import {
     USER_LOGIN_FAIL,
     USER_LOGIN_SUCCESS,
@@ -6,11 +7,14 @@ import {
     USER_REGISTER_FAIL,
     USER_REGISTER_SUCCESS,
     USER_REGISTER_REQUEST,
-    USER_LOGOUT
+    USER_LOGOUT,
+    GET_USER_FAIL,
+    GET_USER_SUCCESS,
+    GET_USER_REQUEST,
 } from '../constants/user'
 
 export interface UserState{
-    user:any,
+    user:UserData,
     loading?:boolean,
     error?:boolean,
     success?:boolean
@@ -37,7 +41,7 @@ export const userLoginReducer=(state=initialState,action:AnyAction)=>{
             ...state,
             loading:false,
             success:true,
-            user:action.payload,
+            user:action.payload as UserData,
             error:false
       
         }
@@ -73,7 +77,7 @@ export const userRegisterReducer=(state=initialState,action:AnyAction)=>{
           return{
                 ...state,
                 loading:false,
-                user:action.payload,
+                user:action.payload as UserData,
                 success:true,
           }
         case USER_REGISTER_FAIL:
@@ -86,3 +90,29 @@ export const userRegisterReducer=(state=initialState,action:AnyAction)=>{
           return state
     }
     }
+
+
+ export const getUserReducer=(state=initialState,action:AnyAction)=>{
+     switch (action.type) {
+       case GET_USER_REQUEST:
+            return{
+              ...state,
+              loading:true
+            }
+      case GET_USER_SUCCESS:
+        return{
+          ...state,
+          loading:false,
+          success:true,
+          user:action.payload as UserData,
+        }   
+     
+      case GET_USER_FAIL:
+        return{
+          ...state,
+          error:true
+        }
+       default:
+         return state;
+     }
+ }

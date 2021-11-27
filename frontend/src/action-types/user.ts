@@ -7,14 +7,14 @@ export interface UserLoginState{
 }
 
 export interface UserData{
-    name:string
-    email:string
-    id:string
-    coverpic:string
-    profilepic:string
-    role:string
-    followers:string[]
-    following:string[]
-    friends:string[]
+    name?:string
+    email?:string
+    _id?:string
+    coverpic?:string
+    profilepic?:string
+    role?:string
+    followers?:string[]
+    following?:string[]
+    friends?:string[]
 }
 

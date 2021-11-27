@@ -1,11 +1,17 @@
 import React,{useState,useEffect, ReactText} from 'react'
+import {useDispatch} from 'react-redux'
+import {useSelector} from '../../store'
 import { Form,Button } from 'react-bootstrap'
 import { uploadImage } from '../../helper'
 import './Topbar.css'
+import { createPostAction } from '../../actions/post'
 
 export const Topbar = () => {
 
+    const dispatch = useDispatch()
+    const {user:{_id}}=useSelector(state=>state.getUser)
     const [image, setImage] = useState<File>()
+    const [desc, setDesc] = useState<string>('')
     
     function handleImage(e:React.ChangeEvent<HTMLInputElement>){
         const fileList = e.target.files;
@@ -17,16 +23,14 @@ export const Topbar = () => {
     async function submit(e:React.MouseEvent<HTMLButtonElement, MouseEvent>){
         e.preventDefault()
         const {data}=await uploadImage(image!,'post')
-        
+        dispatch(createPostAction(desc,data.file.path,_id as string))
     }
-
- 
     return (
         <div className='topbar-main'>
            
                     <Form className='topbar-form'>
                         <Form.Group className='topbar-form-group1' controlId="formText">
-                            <Form.Control as='textarea' rows={2} cols={10} id='text' name='desc'/>                        
+                            <Form.Control as='textarea' rows={2} cols={10} id='text' name='desc' onChange={e=>setDesc(e.target.value)}/>                        
                             <Form.Control type='file' id='post' name='image' onChange={handleImage}/>
                         </Form.Group>
                         <Form.Group className='topbar-form-group2'>
