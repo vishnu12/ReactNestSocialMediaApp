@@ -3,7 +3,7 @@ import './Post.css'
 import {AiFillLike,AiFillDislike} from 'react-icons/ai'
 import {Form,Button} from 'react-bootstrap'
 
-
+const API_URL='http://localhost:5000'
 
 interface PostProps {
     image?:string,
@@ -19,7 +19,7 @@ export const Post:React.FC<PostProps> = ({image,desc}) => {
             {
                 image && 
                 <div className='img-container'>
-                <img src={image} alt='post' />
+                <img src={`${API_URL}/${image}`} alt='post' />
                 </div>
             }
 
