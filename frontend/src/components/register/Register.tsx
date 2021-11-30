@@ -6,6 +6,17 @@ import {useSelector} from '../../store'
 import {useNavigate} from 'react-router-dom'
 import './Register.css'
 import { registerAction } from '../../actions/user'
+import { USER_REGISTER_RESET } from '../../constants/user'
+
+
+interface IUser {
+    name: string,
+    email: string,
+    password: string,
+    phone: string,
+    location:string,
+    confirmPassword: string
+}
 
 
 const Register: React.FC = () => {
@@ -14,21 +25,16 @@ const Register: React.FC = () => {
     const {loading,error,success,user} =useSelector(state=>state.userRegister)
     const navigate = useNavigate()
 
-    interface IUser {
-        name: string,
-        email: string,
-        password: string,
-        confirmPassword: string
-    }
-
     const [values, setValues] = useState({
         name: '',
         email: '',
         password: '',
+        phone: '',
+        location: '',
         confirmPassword: ''
     } as IUser)
 
-    const {name,email,password,confirmPassword} =values
+    const {name,email,password,confirmPassword,phone,location} =values
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.currentTarget
@@ -41,13 +47,14 @@ const Register: React.FC = () => {
     function handleSubmit(e:React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         e.preventDefault()
         if(password!==confirmPassword) return alert('Password and Confirm Password must be same')
-        dispatch(registerAction(name,email,password))
+        dispatch(registerAction(name,email,password,phone,location))
     }
 
     useEffect(()=>{
         if(success){
             alert('Registered Successfully')
             navigate('/login')
+            dispatch({type:USER_REGISTER_RESET})
         }
     },[success])
 
@@ -59,6 +66,12 @@ const Register: React.FC = () => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Control className='input' name='email' type="email" placeholder="Enter email" onChange={handleChange} />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Control className='input' name='phone' type="text" placeholder="Enter phone number" onChange={handleChange} />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Control className='input' name='location' type="text" placeholder="Enter your location" onChange={handleChange} />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Control className='input' name='password' type="password" placeholder="Password" onChange={handleChange} />

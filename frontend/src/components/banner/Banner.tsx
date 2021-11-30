@@ -6,6 +6,9 @@ import {AiOutlineMail} from 'react-icons/ai'
 import {Link} from 'react-router-dom'
 import { ModalContainer } from '../modal/Modal'
 import { useSelector } from '../../store'
+import { getImageUrl } from '../../helper'
+
+const API_URL='http://localhost:5000'
 
 interface Props{
     coverPic: string
@@ -29,17 +32,14 @@ const Banner:React.FC = () => {
   }
   }
 
- function handleHide():void {
-  setShow(false)
- }
 
 
   return (
     <div className='banner-main'>
-      <ModalContainer show={show} onHide={()=>handleHide()} type={imgType} />
-        <img className='cover-img' src="images/cover.jpg" alt="cover-img" />
+      <ModalContainer show={show} onHide={setShow} type={imgType} />
+        <img className='cover-img' src={getImageUrl(user.coverpic,'cover')} alt="cover-img" />
       <div className="profile-img-container">
-          <img className='profile-img' src="images/sample-profile-pic.png" alt="profile-img" />
+          <img className='profile-img' src={getImageUrl(user.profilepic,'profile')} alt="profile-img" />
       </div>
       <div className='banner-details'>
             <h1>{user.name}</h1>

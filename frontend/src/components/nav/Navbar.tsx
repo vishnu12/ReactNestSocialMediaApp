@@ -14,8 +14,13 @@ export const NavbarComp = () => {
  const {loading,error,user}=useSelector(state=>state.getUser)
 
   useEffect(()=>{
+    if(Object.keys(user).length==0  && !localStorage.getItem('user')){
+       navigate('/login')
+    }
     dispatch(getUserAction(JSON.parse(`${localStorage.getItem('user')}`)))
   },[dispatch])
+
+  console.log(user)
 
     return (
         <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">

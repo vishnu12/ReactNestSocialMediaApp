@@ -1,15 +1,21 @@
 import React,{useState} from 'react'
+import {useDispatch} from 'react-redux'
 import { Modal, Button,Form } from 'react-bootstrap'
 import './Modal.css'
+import { updateUserAction } from '../../actions/user'
+import { useSelector } from '../../store'
+import { uploadCoverImage } from '../../helper'
 
 interface ModalProps {
     show: boolean,
-    onHide: () => void,
+    onHide:React.Dispatch<React.SetStateAction<boolean>>
     type: string
 }
 
 export const ModalContainer: React.FC<ModalProps> = (props) => {
 
+    const dispatch = useDispatch()
+    const {user}=useSelector(state=>state.getUser)
     const [image, setImage] = useState<File>()
 
     function handleImage(e:React.ChangeEvent<HTMLInputElement>){
@@ -18,6 +24,19 @@ export const ModalContainer: React.FC<ModalProps> = (props) => {
         const file = fileList[0];
         setImage(file)
     }
+
+    async function handleSubmit(image:File|undefined,e:React.MouseEvent<HTMLButtonElement, MouseEvent>):Promise<void>{
+        e.preventDefault()
+        if(!image||image==null){
+        props.onHide(false)
+      }else{
+        const {data}=await uploadCoverImage(image!,`${props.type}`)
+        console.log(data)
+        // dispatch(updateUserAction(user._id as string,{props.type:data.file.path}))
+        props.onHide(false)
+      }
+    }
+
     return (
         <Modal
             {...props}
@@ -39,7 +58,7 @@ export const ModalContainer: React.FC<ModalProps> = (props) => {
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={props.onHide}>Upload</Button>
+                <Button onClick={(e)=>handleSubmit(image,e)}>Upload</Button>
             </Modal.Footer>
         </Modal>
     )

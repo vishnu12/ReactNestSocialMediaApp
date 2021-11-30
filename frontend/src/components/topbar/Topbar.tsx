@@ -2,7 +2,7 @@ import React,{useState,useEffect, ReactText} from 'react'
 import {useDispatch} from 'react-redux'
 import {useSelector} from '../../store'
 import { Form,Button } from 'react-bootstrap'
-import { uploadImage } from '../../helper'
+import { uploadPostImage } from '../../helper'
 import './Topbar.css'
 import { createPostAction } from '../../actions/post'
 
@@ -22,7 +22,7 @@ export const Topbar = () => {
     
     async function submit(e:React.MouseEvent<HTMLButtonElement, MouseEvent>){
         e.preventDefault()
-        const {data}=await uploadImage(image!,'post')
+        const {data}=await uploadPostImage(image!,'post')
         dispatch(createPostAction(desc,data.file.path,_id as string))
     }
     return (

@@ -12,9 +12,13 @@ import {
     GET_USER_SUCCESS,
     GET_USER_FAIL,
     GET_USER_REQUEST,
+    USER_UPDATE_FAIL,
+    USER_UPDATE_REQUEST,
+    USER_UPDATE_SUCCESS,
 } from '../constants/user'
 import { RootState } from '../store'
 import { NavigateFunction } from 'react-router'
+import { UserData } from '../action-types/user'
 
 
 
@@ -37,10 +41,10 @@ export const loginAction =
 
 
 export const registerAction =
-    (name: string, email: string, password: string): ThunkAction<void, RootState, undefined, AnyAction> => async (dispatch) => {
+    (name: string, email: string, password: string,phone:string,location:string): ThunkAction<void, RootState, undefined, AnyAction> => async (dispatch) => {
         dispatch({ type: USER_REGISTER_REQUEST })
         try {
-            const { data } = await axios.post(API_URL + '/auth/register', { name, email, password })
+            const { data } = await axios.post(API_URL + '/auth/register', { name, email, password ,phone,location})
             dispatch({ type: USER_REGISTER_SUCCESS, payload: data })
 
         } catch (error) {
@@ -72,3 +76,17 @@ export const getUserAction =
             dispatch({ type: GET_USER_FAIL })
         }
     }
+
+
+
+export const updateUserAction =
+(id:string|undefined,data:UserData): ThunkAction<void, RootState, undefined, AnyAction> => async (dispatch) => {
+    dispatch({ type: USER_UPDATE_REQUEST })
+    try {
+        const { data } = await axios.put(API_URL + '/user/'+id)
+        dispatch({ type: USER_UPDATE_SUCCESS, payload: data })
+
+    } catch (error) {
+        dispatch({ type: USER_UPDATE_FAIL })
+    }
+}    

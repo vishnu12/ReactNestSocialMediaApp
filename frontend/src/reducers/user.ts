@@ -7,10 +7,14 @@ import {
     USER_REGISTER_FAIL,
     USER_REGISTER_SUCCESS,
     USER_REGISTER_REQUEST,
+    USER_REGISTER_RESET,
     USER_LOGOUT,
     GET_USER_FAIL,
     GET_USER_SUCCESS,
     GET_USER_REQUEST,
+    USER_UPDATE_FAIL,
+    USER_UPDATE_SUCCESS,
+    USER_UPDATE_REQUEST
 } from '../constants/user'
 
 export interface UserState{
@@ -86,6 +90,12 @@ export const userRegisterReducer=(state=initialState,action:AnyAction)=>{
                 loading:false,
                 error:true
           }
+
+        case USER_REGISTER_RESET:
+          return{
+            ...state,
+            success:false,
+          }
         default:
           return state
     }
@@ -115,4 +125,31 @@ export const userRegisterReducer=(state=initialState,action:AnyAction)=>{
        default:
          return state;
      }
+ }
+
+ export const updateUserReducer=(state=initialState,action:AnyAction)=>{
+    switch (action.type) {
+      case USER_UPDATE_REQUEST:
+        return {
+          ...state,
+          loading:true
+        }
+        case USER_UPDATE_SUCCESS:
+          return {
+            ...state,
+            loading:false,
+            success:true,
+            user:action.payload as UserData,
+          } 
+
+          case USER_UPDATE_FAIL:
+          return {
+            ...state,
+            loading:false,
+            error:true
+          } 
+    
+      default:
+        return state;
+    }
  }

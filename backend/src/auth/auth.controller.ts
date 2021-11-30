@@ -55,7 +55,7 @@ export class AuthController {
         email:req.user.email,
         password:req.user.googleId,
         oAuthUser:true,
-        image:req.user.picture
+        profilepic:req.user.picture
       } as RegisterDto
       const user=await this.authService.register(body)
       const authData:ResData={
