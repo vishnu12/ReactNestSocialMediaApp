@@ -80,10 +80,11 @@ export const getUserAction =
 
 
 export const updateUserAction =
-(id:string|undefined,data:UserData): ThunkAction<void, RootState, undefined, AnyAction> => async (dispatch) => {
+(id:string|undefined,updateData:UserData): ThunkAction<void, RootState, undefined, AnyAction> => async (dispatch) => {
     dispatch({ type: USER_UPDATE_REQUEST })
+    console.log(id)
     try {
-        const { data } = await axios.put(API_URL + '/user/'+id)
+        const { data } = await axios.put(API_URL + '/user/'+id,updateData)
         dispatch({ type: USER_UPDATE_SUCCESS, payload: data })
 
     } catch (error) {

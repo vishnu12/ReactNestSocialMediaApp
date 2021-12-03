@@ -1,10 +1,11 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import { Modal, Button,Form } from 'react-bootstrap'
 import './Modal.css'
 import { updateUserAction } from '../../actions/user'
 import { useSelector } from '../../store'
-import { uploadCoverImage } from '../../helper'
+import { uploadImage } from '../../helper'
+
 
 interface ModalProps {
     show: boolean,
@@ -16,6 +17,7 @@ export const ModalContainer: React.FC<ModalProps> = (props) => {
 
     const dispatch = useDispatch()
     const {user}=useSelector(state=>state.getUser)
+    const {success,loading,error,user:updatedUser}=useSelector(state=>state.updateUser)
     const [image, setImage] = useState<File>()
 
     function handleImage(e:React.ChangeEvent<HTMLInputElement>){
@@ -25,15 +27,26 @@ export const ModalContainer: React.FC<ModalProps> = (props) => {
         setImage(file)
     }
 
+    useEffect(()=>{
+        if(success){
+            props.onHide(false)
+        }
+    },[success,updatedUser])
+
     async function handleSubmit(image:File|undefined,e:React.MouseEvent<HTMLButtonElement, MouseEvent>):Promise<void>{
         e.preventDefault()
-        if(!image||image==null){
-        props.onHide(false)
+      if(!image||image==null){
+          props.onHide(false)
       }else{
-        const {data}=await uploadCoverImage(image!,`${props.type}`)
-        console.log(data)
-        // dispatch(updateUserAction(user._id as string,{props.type:data.file.path}))
-        props.onHide(false)
+        if(props.type==='cover'){
+            const {data}=await uploadImage(image!,'cover',`${props.type}`)
+            dispatch(updateUserAction(user._id as string,{coverpic:data?.file.path}))
+        }else{
+            const {data}=await uploadImage(image!,'profile',`${props.type}`)
+            dispatch(updateUserAction(user._id as string,{profilepic:data?.file.path}))
+        }
+        
+        
       }
     }
 

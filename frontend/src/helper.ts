@@ -8,15 +8,26 @@
     localStorage.setItem('user',JSON.stringify(cookie))
  }
 
- export async function uploadPostImage(file:File,fieldname:string):Promise<any>{
+ export async function uploadImage(file:File,fieldname:string,type:string):Promise<any>{
     try {
       const formData=new FormData()
       formData.append(`${fieldname}`,file)
-      return await axios.post(`${API_URL}/posts/upload`,formData,{
+      return type==='post'?await axios.post(`${API_URL}/posts/upload`,formData,{
          headers: {
            'Content-Type': 'multipart/form-data'
          }
-     })
+     }):
+     type==='cover'?await axios.post(`${API_URL}/user/upload/cover`,formData,{
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+          })
+          :
+      await axios.post(`${API_URL}/user/upload/profile`,formData,{
+               headers: {
+                  'Content-Type': 'multipart/form-data'
+               }
+            })
       
     } catch (error) {
        console.log(error)
@@ -24,38 +35,40 @@
     }
  }
 
- export async function uploadCoverImage(file:File,fieldname:string):Promise<any>{
-   try {
-     const formData=new FormData()
-     formData.append(`${fieldname}`,file)
-     return await axios.post(`${API_URL}/user/upload/cover`,formData,{
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-    })
+//  export async function uploadCoverImage(file:File,fieldname:string):Promise<any>{
+//    try {
+//      const formData=new FormData()
+//      formData.append(`${fieldname}`,file)
+//      return await axios.post(`${API_URL}/user/upload/cover`,formData,{
+//         headers: {
+//           'Content-Type': 'multipart/form-data'
+//         }
+//     })
      
-   } catch (error) {
-      console.log(error)
+//    } catch (error) {
+//       console.log(error)
   
-   }
-}
+//    }
+// }
 
-export async function uploadProfileImage(file:File,fieldname:string):Promise<any>{
-   try {
-     const formData=new FormData()
-     formData.append(`${fieldname}`,file)
-     return await axios.post(`${API_URL}/user/upload/profile`,formData,{
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-    })
+// export async function uploadProfileImage(file:File,fieldname:string):Promise<any>{
+//    try {
+//      const formData=new FormData()
+//      formData.append(`${fieldname}`,file)
+//      return await axios.post(`${API_URL}/user/upload/profile`,formData,{
+//         headers: {
+//           'Content-Type': 'multipart/form-data'
+//         }
+//     })
      
-   } catch (error) {
-      console.log(error)
+//    } catch (error) {
+//       console.log(error)
   
-   }
-}
+//    }
+// }
 
  export function getImageUrl(url:string|undefined,type:string):string{
+    console.log(url);
+    
    return url?`${API_URL}/${url}`:type==='cover'?'images/cover.jpg':'images/sample-profile-pic.png'
  }

@@ -16,5 +16,7 @@ export interface UserData{
     followers?:string[]
     following?:string[]
     friends?:string[]
+    location?:string
+    phone?:string
 }
 

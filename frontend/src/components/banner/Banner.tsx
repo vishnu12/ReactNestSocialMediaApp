@@ -1,12 +1,14 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import './Banner.css'
 import {Button} from 'react-bootstrap'
 import {FaSearchLocation,FaPhone} from 'react-icons/fa'
+import {useDispatch} from 'react-redux'
 import {AiOutlineMail} from 'react-icons/ai'
 import {Link} from 'react-router-dom'
 import { ModalContainer } from '../modal/Modal'
 import { useSelector } from '../../store'
 import { getImageUrl } from '../../helper'
+import { getUserAction } from '../../actions/user'
 
 const API_URL='http://localhost:5000'
 
@@ -17,7 +19,9 @@ interface Props{
 
 const Banner:React.FC = () => {
 
+  const dispatch=useDispatch()
   const {user}=useSelector(state=>state.getUser)
+  const {success,user:updatedUser}=useSelector(state=>state.updateUser)
 
   const [show, setShow] = useState<boolean>(false)
   const [imgType, setImgType] = useState<string>('')
@@ -32,6 +36,9 @@ const Banner:React.FC = () => {
   }
   }
 
+  useEffect(()=>{
+   dispatch(getUserAction(JSON.parse(`${localStorage.getItem('user')}`)))
+  },[success,dispatch,updatedUser])
 
 
   return (
@@ -48,9 +55,9 @@ const Banner:React.FC = () => {
       <Button variant='outline-primary' className='banner-btn' onClick={()=>handleShow('cover')}>Change Cover Pic</Button>
       </div>
       <div className='banner-description'>
-        <p><span style={{color:'blueviolet'}}><FaSearchLocation /></span> Trivandrum</p>
-        <p><span style={{color:'green'}}><FaPhone /></span> 8943619285</p>
-        <p><span style={{color:''}}><AiOutlineMail /></span> vishnu007jr@gmail.com</p>
+        <p><span style={{color:'blueviolet'}}><FaSearchLocation /></span> {user.location}</p>
+        <p><span style={{color:'green'}}><FaPhone /></span> {user.phone}</p>
+        <p><span style={{color:''}}><AiOutlineMail /></span> {user.email}</p>
       </div>
       <Link to='/' className='btn btn-outline-primary banner-btn'>Back Home</Link>
       </div>
