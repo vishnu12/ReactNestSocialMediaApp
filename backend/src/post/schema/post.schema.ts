@@ -29,7 +29,9 @@ export class Post{
     @Prop()
     image:string
 
-
+    @Prop({default:Date.now()})
+    createdAt:Date
+   
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);

@@ -12,6 +12,7 @@ function App() {
       <Route path='/login' element={<LoginPage />}/>
       <Route path='/register' element={<RegisterPage />}/>
       <Route path='/profile' element={<Profile />}/>
+      <Route path='/profile/:id' element={<Profile />}/>
     </Routes>
   );
 }

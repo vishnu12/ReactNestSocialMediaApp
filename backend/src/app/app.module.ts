@@ -12,10 +12,10 @@ import { AppService } from './app.service';
 @Module({
   imports: [
   MongooseModule.forRoot('mongodb://localhost:27017/socialmediaapplication'),
-  ServeStaticModule.forRoot({
-    rootPath: join(__dirname, '..', 'frontend'),
+  // ServeStaticModule.forRoot({
+  //   rootPath: join(__dirname, '..', 'frontend'),
 
-  }),
+  // }),
   UserModule,
   PostModule,
   AuthModule

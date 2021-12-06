@@ -20,6 +20,7 @@ export const Posts = () => {
                 posts && posts.map((itm,index)=>(
                     <Post image={itm.image} 
                     desc={itm.description}
+                    postedBy={itm.postedBy as any}
                     key={index}
                     />
                 ))

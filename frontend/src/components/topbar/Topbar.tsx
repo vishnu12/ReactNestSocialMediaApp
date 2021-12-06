@@ -4,12 +4,13 @@ import {useSelector} from '../../store'
 import { Form,Button } from 'react-bootstrap'
 import { uploadImage } from '../../helper'
 import './Topbar.css'
-import { createPostAction } from '../../actions/post'
+import { createPostAction,getPostAction } from '../../actions/post'
 
 export const Topbar = () => {
 
     const dispatch = useDispatch()
     const {user:{_id}}=useSelector(state=>state.getUser)
+    const {post}=useSelector(state=>state.createPost)
     const [image, setImage] = useState<File>()
     const [desc, setDesc] = useState<string>('')
     
@@ -23,8 +24,13 @@ export const Topbar = () => {
     async function submit(e:React.MouseEvent<HTMLButtonElement, MouseEvent>){
         e.preventDefault()
         const {data}=await uploadImage(image!,'post','post')
-        dispatch(createPostAction(desc,data.file.path,_id as string))
+        data && dispatch(createPostAction(desc,data.file.path,_id as string))
     }
+
+    useEffect(()=>{
+      dispatch(getPostAction())
+    },[post,dispatch])
+
     return (
         <div className='topbar-main'>
            

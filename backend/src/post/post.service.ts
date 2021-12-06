@@ -20,7 +20,7 @@ export class PostService {
 
    async getAllPosts():Promise<CreatePostDto[]>{
        try {
-           return await this.postModel.find()
+           return await this.postModel.find().populate('postedBy','_id name').sort({createdAt:-1})
        } catch (error) {
            throw new HttpException(`${error}`,400)
        }

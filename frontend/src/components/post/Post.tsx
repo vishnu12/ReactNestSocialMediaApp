@@ -2,19 +2,26 @@ import React from 'react'
 import './Post.css'
 import {AiFillLike,AiFillDislike} from 'react-icons/ai'
 import {Form,Button} from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 const API_URL='http://localhost:5000'
 
 interface PostProps {
     image?:string,
-    desc?:string
+    desc?:string,
+    postedBy?:{
+        _id:string
+        name:string
+    }
 }
-export const Post:React.FC<PostProps> = ({image,desc}) => {
+export const Post:React.FC<PostProps> = ({image,desc,postedBy}) => {
     return (
         <div className='post-main'>
             <div className='post-top'>
               <img src="/images/cover.jpg" alt="" />
-              <p>Vishnu</p>
+              <Link to={`/profile/${postedBy?._id}`}
+              style={{textDecoration:'none'}}
+              ><p>{postedBy?.name}</p></Link>
             </div>
             {
                 image && 

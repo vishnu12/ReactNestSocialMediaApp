@@ -2,6 +2,7 @@ import React,{useEffect, useState} from 'react'
 import './Banner.css'
 import {Button} from 'react-bootstrap'
 import {FaSearchLocation,FaPhone} from 'react-icons/fa'
+import { useParams } from "react-router-dom";
 import {useDispatch} from 'react-redux'
 import {AiOutlineMail} from 'react-icons/ai'
 import {Link} from 'react-router-dom'
@@ -11,6 +12,8 @@ import { getImageUrl } from '../../helper'
 import { getUserAction } from '../../actions/user'
 
 const API_URL='http://localhost:5000'
+
+//this page has an issue of not loading the default image
 
 interface Props{
     coverPic: string
@@ -22,6 +25,7 @@ const Banner:React.FC = () => {
   const dispatch=useDispatch()
   const {user}=useSelector(state=>state.getUser)
   const {success,user:updatedUser}=useSelector(state=>state.updateUser)
+  const {id}=useParams()
 
   const [show, setShow] = useState<boolean>(false)
   const [imgType, setImgType] = useState<string>('')
@@ -37,9 +41,12 @@ const Banner:React.FC = () => {
   }
 
   useEffect(()=>{
-   dispatch(getUserAction(JSON.parse(`${localStorage.getItem('user')}`)))
+   if(id){
+    dispatch(getUserAction(id))
+   }else{
+    dispatch(getUserAction(JSON.parse(`${localStorage.getItem('user')}`)))
+   }
   },[success,dispatch,updatedUser])
-
 
   return (
     <div className='banner-main'>
