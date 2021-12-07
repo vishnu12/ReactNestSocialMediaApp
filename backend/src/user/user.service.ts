@@ -26,10 +26,24 @@ export class UserService {
       }
     }
 
-   async findAndUpdate(id:string,data:RegisterDto):Promise<RegisterDto>{
+   async findAndUpdate(id:string,data:any):Promise<RegisterDto>{
        try {
            const user=await this.userModel.findById(id)
            if(user){
+            if(user && data.friends){
+                const alreadyAdded=user.friends.some(itm=>itm===data.friends)
+                if(alreadyAdded) return
+                user.friends=[...user.friends,data.friends]
+                const upadtedUser=await user.save()
+                return upadtedUser
+           }else if(user && data.followers){
+                const alreadyAdded=user.followers.some(itm=>itm===data.followers)
+                if(alreadyAdded) return
+                user.followers=[...user.friends,data.followers]
+                const upadtedUser=await user.save()
+                return upadtedUser
+           }
+           else{
             user.name=data.name||user.name
             user.email=data.email||user.email
             user.password=data.password||user.password
@@ -40,8 +54,9 @@ export class UserService {
             const upadtedUser=await user.save()
             return upadtedUser
            }
+           }
        } catch (error) {
-           
+        throw new HttpException(`${error}`,400)
        }
    } 
 }

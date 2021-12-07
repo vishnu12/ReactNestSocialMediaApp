@@ -13,9 +13,9 @@ export interface UserData{
     coverpic?:string
     profilepic?:string
     role?:string
-    followers?:string[]
-    following?:string[]
-    friends?:string[]
+    followers?:string
+    following?:string
+    friends?:string
     location?:string
     phone?:string
 }

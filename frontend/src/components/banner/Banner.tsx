@@ -8,8 +8,8 @@ import {AiOutlineMail} from 'react-icons/ai'
 import {Link} from 'react-router-dom'
 import { ModalContainer } from '../modal/Modal'
 import { useSelector } from '../../store'
-import { getImageUrl } from '../../helper'
-import { getUserAction } from '../../actions/user'
+import { getImageUrl, isLoggedInUser } from '../../helper'
+import { getUserAction, updateUserAction } from '../../actions/user'
 
 const API_URL='http://localhost:5000'
 
@@ -40,6 +40,22 @@ const Banner:React.FC = () => {
   }
   }
 
+  function handleAddFriend(e:React.MouseEvent<HTMLButtonElement, MouseEvent>):void{
+    e.preventDefault()
+    dispatch(updateUserAction(
+     JSON.parse(`${localStorage.getItem('user')}`),
+      {friends:id}
+    ))
+  }
+
+  function handleFollow(e:React.MouseEvent<HTMLButtonElement, MouseEvent>):void{
+    e.preventDefault()
+    dispatch(updateUserAction(
+     JSON.parse(`${localStorage.getItem('user')}`),
+      {followers:id}
+    ))
+  }
+
   useEffect(()=>{
    if(id){
     dispatch(getUserAction(id))
@@ -48,6 +64,7 @@ const Banner:React.FC = () => {
    }
   },[success,dispatch,updatedUser])
 
+  
   return (
     <div className='banner-main'>
       <ModalContainer show={show} onHide={setShow} type={imgType} />
@@ -57,10 +74,19 @@ const Banner:React.FC = () => {
       </div>
       <div className='banner-details'>
             <h1>{user.name}</h1>
-      <div className='banner-btn-container'>
+      {
+        isLoggedInUser(JSON.parse(`${localStorage.getItem('user')}`),user._id)?
+        <div className='banner-btn-container'>
       <Button variant='outline-primary' className='banner-btn' onClick={()=>handleShow('profile')}>Change Profile Pic</Button>
       <Button variant='outline-primary' className='banner-btn' onClick={()=>handleShow('cover')}>Change Cover Pic</Button>
       </div>
+      :
+      <div className='banner-btn-container'>
+      <Button variant='outline-primary' className='banner-btn' onClick={(e)=>handleAddFriend(e)} >Add Friend</Button>
+      <Button variant='outline-primary' className='banner-btn' onClick={(e)=>handleFollow(e)} >Follow</Button>
+      </div>
+        
+      }
       <div className='banner-description'>
         <p><span style={{color:'blueviolet'}}><FaSearchLocation /></span> {user.location}</p>
         <p><span style={{color:'green'}}><FaPhone /></span> {user.phone}</p>
