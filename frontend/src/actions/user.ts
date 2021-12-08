@@ -15,6 +15,9 @@ import {
     USER_UPDATE_FAIL,
     USER_UPDATE_REQUEST,
     USER_UPDATE_SUCCESS,
+    GET_LOGGEDIN_USER_FAIL,
+    GET_LOGGEDIN_USER_REQUEST,
+    GET_LOGGEDIN_USER_SUCCESS
 } from '../constants/user'
 import { RootState } from '../store'
 import { NavigateFunction } from 'react-router'
@@ -32,7 +35,7 @@ export const loginAction =
         dispatch({ type: USER_LOGIN_REQUEST })
         try {
             const {data}=await axios.post(API_URL + '/auth/login', { email, password })
-            dispatch({ type: USER_LOGIN_SUCCESS,payload:data })
+            dispatch({ type: USER_LOGIN_SUCCESS})
 
         } catch (error) {
             dispatch({ type: USER_LOGIN_FAIL })
@@ -78,6 +81,17 @@ export const getUserAction =
     }
 
 
+    export const getLoggedInUserAction =
+    (id:string): ThunkAction<void, RootState, undefined, AnyAction> => async (dispatch) => {
+        dispatch({ type: GET_LOGGEDIN_USER_REQUEST })
+        try {
+            const { data } = await axios.get(API_URL + '/user/'+id)
+            dispatch({ type: GET_LOGGEDIN_USER_SUCCESS, payload: data })
+
+        } catch (error) {
+            dispatch({ type: GET_LOGGEDIN_USER_FAIL })
+        }
+    }    
 
 export const updateUserAction =
 (id:string|undefined,updateData:UserData): ThunkAction<void, RootState, undefined, AnyAction> => async (dispatch) => {

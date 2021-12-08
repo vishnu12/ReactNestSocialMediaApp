@@ -40,10 +40,10 @@ export const ModalContainer: React.FC<ModalProps> = (props) => {
       }else{
         if(props.type==='cover'){
             const {data}=await uploadImage(image!,'cover',`${props.type}`)
-            dispatch(updateUserAction(user._id as string,{coverpic:data?.file.path}))
+            dispatch(updateUserAction(user!._id as string,{coverpic:data?.file.path}))
         }else{
             const {data}=await uploadImage(image!,'profile',`${props.type}`)
-            dispatch(updateUserAction(user._id as string,{profilepic:data?.file.path}))
+            dispatch(updateUserAction(user!._id as string,{profilepic:data?.file.path}))
         }
         
         

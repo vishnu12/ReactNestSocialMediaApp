@@ -46,3 +46,10 @@
  export function isLoggedInUser(loggedInUser:string|undefined,currentUser:string|undefined):boolean{
     return loggedInUser===currentUser
  }
+
+
+
+export function isAdded(list:string[],currentUserId:string|undefined):boolean{
+   return list.some(itm=>itm===currentUserId)
+}
+

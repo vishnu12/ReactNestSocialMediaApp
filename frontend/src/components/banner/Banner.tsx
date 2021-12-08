@@ -8,8 +8,8 @@ import {AiOutlineMail} from 'react-icons/ai'
 import {Link} from 'react-router-dom'
 import { ModalContainer } from '../modal/Modal'
 import { useSelector } from '../../store'
-import { getImageUrl, isLoggedInUser } from '../../helper'
-import { getUserAction, updateUserAction } from '../../actions/user'
+import { getImageUrl, isAdded, isLoggedInUser } from '../../helper'
+import { getLoggedInUserAction, getUserAction, updateUserAction } from '../../actions/user'
 
 const API_URL='http://localhost:5000'
 
@@ -24,6 +24,7 @@ const Banner:React.FC = () => {
 
   const dispatch=useDispatch()
   const {user}=useSelector(state=>state.getUser)
+  const {user:loggedInUser}=useSelector(state=>state.getLoggedInUser)
   const {success,user:updatedUser}=useSelector(state=>state.updateUser)
   const {id}=useParams()
 
@@ -44,7 +45,7 @@ const Banner:React.FC = () => {
     e.preventDefault()
     dispatch(updateUserAction(
      JSON.parse(`${localStorage.getItem('user')}`),
-      {friends:id}
+      {friends:id as string}
     ))
   }
 
@@ -52,11 +53,13 @@ const Banner:React.FC = () => {
     e.preventDefault()
     dispatch(updateUserAction(
      JSON.parse(`${localStorage.getItem('user')}`),
-      {followers:id}
+      {followers:id as string}
     ))
   }
 
+ 
   useEffect(()=>{
+   dispatch(getLoggedInUserAction(JSON.parse(`${localStorage.getItem('user')}`)))
    if(id){
     dispatch(getUserAction(id))
    }else{
@@ -82,13 +85,17 @@ const Banner:React.FC = () => {
       </div>
       :
       <div className='banner-btn-container'>
-      <Button variant='outline-primary' className='banner-btn' onClick={(e)=>handleAddFriend(e)} >Add Friend</Button>
-      <Button variant='outline-primary' className='banner-btn' onClick={(e)=>handleFollow(e)} >Follow</Button>
+      <Button variant='outline-primary' className='banner-btn' onClick={(e)=>handleAddFriend(e)} >
+        {isAdded(loggedInUser?.friends as string[],id)?'Unfriend':'Add Friend'}
+        </Button>
+      <Button variant='outline-primary' className='banner-btn' onClick={(e)=>handleFollow(e)} >
+      {isAdded(loggedInUser?.followers as string[],id)?'Unfollow':'Follow'}
+      </Button>
       </div>
         
       }
       <div className='banner-description'>
-        <p><span style={{color:'blueviolet'}}><FaSearchLocation /></span> {user.location}</p>
+        <p><span style={{color:'blueviolet'}}><FaSearchLocation /></span> {user!.location}</p>
         <p><span style={{color:'green'}}><FaPhone /></span> {user.phone}</p>
         <p><span style={{color:''}}><AiOutlineMail /></span> {user.email}</p>
       </div>

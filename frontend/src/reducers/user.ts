@@ -14,7 +14,10 @@ import {
     GET_USER_REQUEST,
     USER_UPDATE_FAIL,
     USER_UPDATE_SUCCESS,
-    USER_UPDATE_REQUEST
+    USER_UPDATE_REQUEST,
+    GET_LOGGEDIN_USER_FAIL,
+    GET_LOGGEDIN_USER_SUCCESS,
+    GET_LOGGEDIN_USER_REQUEST
 } from '../constants/user'
 
 export interface UserState{
@@ -45,7 +48,6 @@ export const userLoginReducer=(state=initialState,action:AnyAction)=>{
             ...state,
             loading:false,
             success:true,
-            user:action.payload as UserData,
             error:false
       
         }
@@ -126,6 +128,34 @@ export const userRegisterReducer=(state=initialState,action:AnyAction)=>{
          return state;
      }
  }
+
+ export const getLoggedInUserReducer=(state=initialState,action:AnyAction)=>{
+  switch (action.type) {
+    case GET_LOGGEDIN_USER_REQUEST:
+         return{
+           ...state,
+           loading:true
+         }
+   case GET_LOGGEDIN_USER_SUCCESS:
+     return{
+       ...state,
+       loading:false,
+       success:true,
+       user:action.payload as UserData,
+     }   
+  
+   case GET_LOGGEDIN_USER_FAIL:
+     return{
+       ...state,
+       error:true
+     }
+    default:
+      return state;
+  }
+}
+
+
+
 
  export const updateUserReducer=(state=initialState,action:AnyAction)=>{
     switch (action.type) {
