@@ -9,18 +9,18 @@ export const Posts = () => {
     const dispatch = useDispatch()
     const {success:createdSuccess}=useSelector(state=>state.createPost)
     const {posts}=useSelector(state=>state.getPosts)
+    const {post,success:updateSuccess}=useSelector(state=>state.updatePost)
 
    useEffect(()=>{
        dispatch(getPostAction())
-   },[createdSuccess,dispatch])
+   },[createdSuccess,dispatch,updateSuccess,post])
 
     return (
         <div className='postloader-main'>
             {
                 posts && posts.map((itm,index)=>(
-                    <Post image={itm.image} 
-                    desc={itm.description}
-                    postedBy={itm.postedBy as any}
+                    <Post 
+                    post={itm}
                     key={index}
                     />
                 ))

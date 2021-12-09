@@ -29,6 +29,21 @@ export interface CreatedUserDto{
     location?:string,
 }
 
+
+export interface UpdateUserDto{
+    _id?:string
+    name:string
+    email:string
+    profilepic?:string
+    coverpic?:string
+    friends?:User|string
+    followers?:User|string
+    following?:User|string
+    role:Role,
+    phone?:string,
+    location?:string,
+}
+
 export interface UserDataDto{
     id:string
     name?:string

@@ -21,7 +21,7 @@ import {
 } from '../constants/user'
 import { RootState } from '../store'
 import { NavigateFunction } from 'react-router'
-import { UserData } from '../action-types/user'
+import { UserData, UserUpdateData } from '../action-types/user'
 
 
 
@@ -94,7 +94,7 @@ export const getUserAction =
     }    
 
 export const updateUserAction =
-(id:string|undefined,updateData:UserData): ThunkAction<void, RootState, undefined, AnyAction> => async (dispatch) => {
+(id:string|undefined,updateData:UserUpdateData): ThunkAction<void, RootState, undefined, AnyAction> => async (dispatch) => {
     dispatch({ type: USER_UPDATE_REQUEST })
     console.log(id)
     try {

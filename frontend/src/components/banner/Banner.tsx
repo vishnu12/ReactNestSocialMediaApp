@@ -95,7 +95,7 @@ const Banner:React.FC = () => {
         
       }
       <div className='banner-description'>
-        <p><span style={{color:'blueviolet'}}><FaSearchLocation /></span> {user!.location}</p>
+        <p><span style={{color:'blueviolet'}}><FaSearchLocation /></span> {user.location}</p>
         <p><span style={{color:'green'}}><FaPhone /></span> {user.phone}</p>
         <p><span style={{color:''}}><AiOutlineMail /></span> {user.email}</p>
       </div>

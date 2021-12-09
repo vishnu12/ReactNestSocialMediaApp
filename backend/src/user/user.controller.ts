@@ -4,7 +4,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { IRequest } from 'src/auth/types/types';
 import { fileFilter, filename } from 'src/utils/fileUpload';
-import { CreatedUserDto, RegisterDto } from './dto/user.dto';
+import { CreatedUserDto, RegisterDto,UpdateUserDto } from './dto/user.dto';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -18,7 +18,7 @@ export class UserController {
     }
 
     @Put('/:id')
-    update(@Param('id') id:string, @Body() data:RegisterDto):Promise<RegisterDto>{
+    update(@Param('id') id:string, @Body() data:UpdateUserDto):Promise<RegisterDto>{
        return this.userService.findAndUpdate(id, data);
     }
 

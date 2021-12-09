@@ -1,5 +1,5 @@
 import {AnyAction} from 'redux'
-import { UserData } from '../action-types/user'
+import { UserData, UserUpdateData } from '../action-types/user'
 import {
     USER_LOGIN_FAIL,
     USER_LOGIN_SUCCESS,
@@ -27,12 +27,26 @@ export interface UserState{
     success?:boolean
 }
 
+export interface UserUpdateState{
+  user:UserUpdateData,
+  loading?:boolean,
+  error?:boolean,
+  success?:boolean
+}
+
 const initialState:UserState={
     user:{},
     loading:false,
     error:false,
     success:false,
 
+}
+
+const initialupdateState:UserUpdateState={
+    user:{},
+    loading:false,
+    error:false,
+    success:false,
 }
 
 export const userLoginReducer=(state=initialState,action:AnyAction)=>{
@@ -157,7 +171,7 @@ export const userRegisterReducer=(state=initialState,action:AnyAction)=>{
 
 
 
- export const updateUserReducer=(state=initialState,action:AnyAction)=>{
+ export const updateUserReducer=(state=initialupdateState,action:AnyAction)=>{
     switch (action.type) {
       case USER_UPDATE_REQUEST:
         return {
@@ -169,7 +183,7 @@ export const userRegisterReducer=(state=initialState,action:AnyAction)=>{
             ...state,
             loading:false,
             success:true,
-            user:action.payload as UserData,
+            user:action.payload as UserUpdateData,
           } 
 
           case USER_UPDATE_FAIL:

@@ -9,3 +9,9 @@ export interface CreatePostDto{
     image?:string
 
 }
+
+export interface UpdatePostDto{
+    comments?:{comment:string,commentedBy:User|string}
+    likes?:User|string,
+    dislikes?:User|string,
+}

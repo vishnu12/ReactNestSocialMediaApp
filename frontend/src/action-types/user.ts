@@ -13,9 +13,23 @@ export interface UserData{
     coverpic?:string
     profilepic?:string
     role?:string
-    followers?:string[]|string
-    following?:string[]|string
-    friends?:string[]|string
+    followers?:string[]
+    following?:string[]
+    friends?:string[]
+    location?:string
+    phone?:string
+}
+
+export interface UserUpdateData{
+    name?:string
+    email?:string
+    _id?:string
+    coverpic?:string
+    profilepic?:string
+    role?:string
+    followers?:string
+    following?:string
+    friends?:string
     location?:string
     phone?:string
 }
