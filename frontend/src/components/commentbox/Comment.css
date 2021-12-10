@@ -1,0 +1,11 @@
+.comments-main{
+    width: 100%;
+    min-height: 10rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px #ccc;
+}

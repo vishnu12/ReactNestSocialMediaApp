@@ -9,7 +9,10 @@ import {
     GET_POST_REQUEST,
     UPDATE_POST_FAIL,
     UPDATE_POST_REQUEST,
-    UPDATE_POST_SUCCESS
+    UPDATE_POST_SUCCESS,
+    GET_POST_BY_ID_FAIL,
+    GET_POST_BY_ID_SUCCESS,
+    GET_POST_BY_ID_REQUEST
 } from '../constants/post'
 
 interface CreatePostState {
@@ -110,6 +113,32 @@ export const getPostReducer = (state = initialStateGet, action:AnyAction) => {
     }
   }
 
+
+  export const getPostByIdReducer = (state = initialStateCreate, action:AnyAction) => {
+    switch (action.type) {
+        case GET_POST_BY_ID_REQUEST:
+            return{
+                ...state,
+                loading:true
+            }
+        case GET_POST_BY_ID_SUCCESS:
+            return{
+                  ...state,
+                  loading:false,
+                  post:action.payload as Post
+            }     
+            
+            
+      case GET_POST_BY_ID_FAIL:
+          return{
+              ...state,
+              loading:false,
+              error:true
+          }
+        default:
+            return state;
+    }
+  } 
 
 
   export const updatePostReducer = (state = initialStateUpdate, action:AnyAction) => {

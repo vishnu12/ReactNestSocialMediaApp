@@ -10,7 +10,10 @@ import {
     GET_POST_SUCCESS,
     UPDATE_POST_FAIL,
     UPDATE_POST_REQUEST,
-    UPDATE_POST_SUCCESS
+    UPDATE_POST_SUCCESS,
+    GET_POST_BY_ID_FAIL,
+    GET_POST_BY_ID_REQUEST,
+    GET_POST_BY_ID_SUCCESS
 } from '../constants/post'
 import { RootState } from '../store';
 import { PostUpdate } from '../action-types/post';
@@ -42,6 +45,19 @@ export const createPostAction =
 
         } catch (error) {
             dispatch({ type: GET_POST_FAIL })
+        }
+    }  
+
+
+    export const getPostByIdAction =
+    (id:string): ThunkAction<void, RootState, undefined, AnyAction> => async (dispatch) => {
+        dispatch({ type: GET_POST_BY_ID_REQUEST})
+        try {
+            const {data}=await axios.get(API_URL + '/posts/'+id)
+            dispatch({ type: GET_POST_BY_ID_SUCCESS,payload:data })
+
+        } catch (error) {
+            dispatch({ type: GET_POST_BY_ID_FAIL })
         }
     }  
     

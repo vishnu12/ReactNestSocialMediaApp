@@ -36,7 +36,7 @@ export const Post:React.FC<PostProps> = ({post}) => {
             {
                 post.image && 
                 <div className='img-container'>
-                <img src={`${API_URL}/${post.image}`} alt='post' />
+                <Link to={`/posts/${post._id}`}><img src={`${API_URL}/${post.image}`} alt='post' /></Link>
                 </div>
             }
 

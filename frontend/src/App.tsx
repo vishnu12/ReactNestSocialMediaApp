@@ -4,6 +4,8 @@ import { LoginPage } from './pages/login/LoginPage';
 import { RegisterPage } from './pages/register/RegisterPage';
 import { Home } from './pages/home/Home';
 import { Profile } from './pages/profile/Profile';
+import { View } from './pages/post/View';
+
 
 function App() {
   return (
@@ -13,6 +15,7 @@ function App() {
       <Route path='/register' element={<RegisterPage />}/>
       <Route path='/profile' element={<Profile />}/>
       <Route path='/profile/:id' element={<Profile />}/>
+      <Route path='/posts/:id' element={<View />}/>
     </Routes>
   );
 }

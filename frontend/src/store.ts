@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import {TypedUseSelectorHook,useSelector as useStoreSelector} from 'react-redux'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import { userLoginReducer, userRegisterReducer,getUserReducer, updateUserReducer,getLoggedInUserReducer } from './reducers/user'
-import { createPostReducer,getPostReducer,updatePostReducer } from './reducers/post'
+import { createPostReducer,getPostReducer,updatePostReducer,getPostByIdReducer } from './reducers/post'
 
 
 
@@ -15,7 +15,8 @@ const rootReducer=combineReducers({
    updateUser:updateUserReducer,
    createPost:createPostReducer,
    getPosts:getPostReducer,
-   updatePost:updatePostReducer
+   updatePost:updatePostReducer,
+   getPostById:getPostByIdReducer
 })
 
 export type RootState=ReturnType<typeof rootReducer>
