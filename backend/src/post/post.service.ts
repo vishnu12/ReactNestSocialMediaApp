@@ -20,7 +20,9 @@ export class PostService {
 
     async getAllPosts(): Promise<CreatePostDto[]> {
         try {
-            return await this.postModel.find().populate('postedBy', '_id name').sort({ createdAt: -1 })
+            return await this.postModel.find().populate('postedBy', '_id name profilepic')
+                                              .populate('comments.commentedBy','_id name profilepic')
+                                              .sort({ createdAt: -1 })
         } catch (error) {
             throw new HttpException(`${error}`, 400)
         }
@@ -28,7 +30,9 @@ export class PostService {
 
     async getPost(id: string): Promise<CreatePostDto> {
         try {
-            return await this.postModel.findById(id).populate('postedBy', '_id name').sort({ createdAt: -1 })
+            return await this.postModel.findById(id).populate('postedBy', '_id name profilepic')
+                                                    .populate('comments.commentedBy','_id name profilepic')
+                                                    .sort({ createdAt: -1 })
         } catch (error) {
             throw new HttpException(`${error}`, 400)
         }
@@ -73,6 +77,10 @@ export class PostService {
                     }else{
                         post.dislikes = [...post.dislikes, data.dislikes]
                     }
+                    const updatedPost = await post.save()
+                    return updatedPost
+                }else if(data.comments){
+                    post.comments = [...post.comments, data.comments]
                     const updatedPost = await post.save()
                     return updatedPost
                 }

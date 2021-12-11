@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import './Post.css'
 import {AiFillLike,AiFillDislike} from 'react-icons/ai'
 import {useDispatch} from 'react-redux'
@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import { Post as PostType } from '../../action-types/post'
 import {useSelector} from '../../store'
 import { updatePostAction } from '../../actions/post'
+import { getImageUrl } from '../../helper'
 
 const API_URL='http://localhost:5000'
 
@@ -15,20 +16,28 @@ interface PostProps {
 }
 export const Post:React.FC<PostProps> = ({post}) => {
 
+    const [comment, setComment] = useState('')
+
     const dispatch=useDispatch()
 
     function handleLike(id:string){
-        dispatch(updatePostAction(id,{likes:post.postedBy?._id}))
+        dispatch(updatePostAction(id,{likes:JSON.parse(`${localStorage.getItem('user')}`)}))
     }
 
     function handleDisLike(id:string){
-        dispatch(updatePostAction(id,{dislikes:post.postedBy?._id}))
+        dispatch(updatePostAction(id,{dislikes:JSON.parse(`${localStorage.getItem('user')}`)}))
+    }
+
+    function handleComment(e:React.MouseEvent<HTMLButtonElement, MouseEvent>,postId:string,commentedBy:string){
+        e.preventDefault()
+        dispatch(updatePostAction(postId,{comments:{comment,commentedBy}}))
+        setComment('')
     }
 
     return (
         <div className='post-main'>
             <div className='post-top'>
-              <img src="/images/cover.jpg" alt="" />
+              <img src={getImageUrl(post.postedBy?.profilepic as string,'profile')} alt="profilepic" />
               <Link to={`/profile/${post.postedBy?._id}`}
               style={{textDecoration:'none'}}
               ><p>{post.postedBy?.name}</p></Link>
@@ -61,8 +70,8 @@ export const Post:React.FC<PostProps> = ({post}) => {
             <div className="comment">
              <Form>
                  <Form.Group className='comment-gp' controlId="exampleForm.ControlTextarea1">
-                     <Form.Control type='text' id='comment' name='comment' />
-                     <Button variant='outline-primary' id='btn'>comment</Button>
+                     <Form.Control type='text' id='comment' name='comment' onChange={e=>setComment(e.currentTarget.value)} />
+                     <Button variant='outline-primary' id='btn' onClick={(e)=>handleComment(e,post?._id as string,JSON.parse(`${localStorage.getItem('user')}`) as string)}>comment</Button>
                  </Form.Group>
              </Form>
             </div>

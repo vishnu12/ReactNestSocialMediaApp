@@ -20,8 +20,7 @@ export const NavbarComp = () => {
     dispatch(getUserAction(JSON.parse(`${localStorage.getItem('user')}`)))
   },[dispatch])
 
-  console.log(user)
-
+ 
     return (
         <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
   <Container>
