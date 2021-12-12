@@ -22,7 +22,7 @@ export class AuthService {
             if(userExists && !userExists.oAuthUser){
                throw new HttpException('User already exists',400)
             }else if(userExists && userExists.oAuthUser){
-                return
+                return userExists
             }else{
               const newUser=new this.userModel(body)
               const createdUser= await newUser.save()

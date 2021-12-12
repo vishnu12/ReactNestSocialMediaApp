@@ -13,11 +13,13 @@ export const NavbarComp = () => {
  const navigate = useNavigate()
  const {loading,error,user}=useSelector(state=>state.getUser)
 
+
   useEffect(()=>{
+    readDataFromCookie()
+    dispatch(getUserAction(JSON.parse(`${localStorage.getItem('user')}`)))
     if(Object.keys(user).length==0  && !localStorage.getItem('user')){
        navigate('/login')
     }
-    dispatch(getUserAction(JSON.parse(`${localStorage.getItem('user')}`)))
   },[dispatch])
 
  
