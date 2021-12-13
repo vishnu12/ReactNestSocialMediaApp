@@ -12,7 +12,8 @@ import {
     UPDATE_POST_SUCCESS,
     GET_POST_BY_ID_FAIL,
     GET_POST_BY_ID_SUCCESS,
-    GET_POST_BY_ID_REQUEST
+    GET_POST_BY_ID_REQUEST,
+    UPDATE_POST_RESET
 } from '../constants/post'
 
 interface CreatePostState {
@@ -152,7 +153,8 @@ export const getPostReducer = (state = initialStateGet, action:AnyAction) => {
             return{
                   ...state,
                   loading:false,
-                  post:action.payload as PostUpdate
+                  post:action.payload as PostUpdate,
+                  success:true
             }     
             
             
@@ -162,6 +164,12 @@ export const getPostReducer = (state = initialStateGet, action:AnyAction) => {
               loading:false,
               error:true
           }
+
+      case UPDATE_POST_RESET:
+          return {
+                ...state,
+                success:false
+          }    
         default:
             return state;
     }

@@ -4,6 +4,7 @@ import { getPostAction } from '../../actions/post'
 import {useSelector} from '../../store'
 import { Post } from '../post/Post'
 import './Posts.css'
+import {UPDATE_POST_RESET} from '../../constants/post'
 
 export const Posts = () => {
     const dispatch = useDispatch()
@@ -12,6 +13,7 @@ export const Posts = () => {
     const {post,success:updateSuccess}=useSelector(state=>state.updatePost)
 
    useEffect(()=>{
+       dispatch({type:UPDATE_POST_RESET})
        dispatch(getPostAction())
    },[createdSuccess,dispatch,updateSuccess,post])
 

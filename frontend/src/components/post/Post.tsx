@@ -3,6 +3,7 @@ import './Post.css'
 import {AiFillLike,AiFillDislike} from 'react-icons/ai'
 import {useDispatch} from 'react-redux'
 import {Form,Button} from 'react-bootstrap'
+import {useNavigate} from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { Post as PostType } from '../../action-types/post'
 import {useSelector} from '../../store'
@@ -17,8 +18,11 @@ interface PostProps {
 export const Post:React.FC<PostProps> = ({post}) => {
 
     const [comment, setComment] = useState('')
+    const [commented, setCommented] = useState(false)
 
     const dispatch=useDispatch()
+    const {post:updatedPost,success}=useSelector(state=>state.updatePost)
+    const navigate=useNavigate()
 
     function handleLike(id:string){
         dispatch(updatePostAction(id,{likes:JSON.parse(`${localStorage.getItem('user')}`)}))
@@ -31,8 +35,16 @@ export const Post:React.FC<PostProps> = ({post}) => {
     function handleComment(e:React.MouseEvent<HTMLButtonElement, MouseEvent>,postId:string,commentedBy:string){
         e.preventDefault()
         dispatch(updatePostAction(postId,{comments:{comment,commentedBy}}))
-        setComment('')
+        setCommented(true)
     }
+
+    useEffect(()=>{
+         if(success && commented){
+            setComment('')
+            console.log(post)
+            navigate(`/posts/${updatedPost._id}`)
+         }
+    },[success,updatedPost])
 
     return (
         <div className='post-main'>

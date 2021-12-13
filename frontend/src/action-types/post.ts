@@ -11,6 +11,7 @@ export interface Post{
 
 
 export interface PostUpdate{
+    _id?:string;
     comments?:{comment:string,commentedBy:string}
     likes?:string
     dislikes?:string

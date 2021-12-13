@@ -17,7 +17,7 @@ export const NavbarComp = () => {
   useEffect(()=>{
     readDataFromCookie()
     dispatch(getUserAction(JSON.parse(`${localStorage.getItem('user')}`)))
-    if(Object.keys(user).length==0  && !localStorage.getItem('user')){
+    if(!JSON.parse(`${localStorage.getItem('user')}`)||JSON.parse(`${localStorage.getItem('user')}`)===null){
        navigate('/login')
     }
   },[dispatch])
@@ -26,7 +26,7 @@ export const NavbarComp = () => {
     return (
         <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
   <Container>
-  <Navbar.Brand href="/">Facebook</Navbar.Brand>
+  <Navbar.Brand as={Link} to='/'>Facebook</Navbar.Brand>
   <Navbar.Toggle aria-controls="responsive-navbar-nav" />
   <Navbar.Collapse id="responsive-navbar-nav">
     <Nav className='nav-right'>
