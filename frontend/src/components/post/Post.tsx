@@ -34,8 +34,13 @@ export const Post:React.FC<PostProps> = ({post}) => {
 
     function handleComment(e:React.MouseEvent<HTMLButtonElement, MouseEvent>,postId:string,commentedBy:string){
         e.preventDefault()
-        dispatch(updatePostAction(postId,{comments:{comment,commentedBy}}))
-        setCommented(true)
+        if(comment===''||comment===undefined){
+            alert('Please enter a comment')
+        }else{
+            dispatch(updatePostAction(postId,{comments:{comment,commentedBy}}))
+            setCommented(true)
+        }
+       
     }
 
     useEffect(()=>{

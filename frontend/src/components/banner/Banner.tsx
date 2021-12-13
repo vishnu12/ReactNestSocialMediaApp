@@ -1,7 +1,7 @@
 import React,{useEffect, useState} from 'react'
 import './Banner.css'
 import {Button} from 'react-bootstrap'
-import {FaSearchLocation,FaPhone} from 'react-icons/fa'
+import {FaSearchLocation,FaPhone,FaEdit} from 'react-icons/fa'
 import { useParams } from "react-router-dom";
 import {useDispatch} from 'react-redux'
 import {AiOutlineMail} from 'react-icons/ai'
@@ -14,11 +14,6 @@ import { getLoggedInUserAction, getUserAction, updateUserAction } from '../../ac
 const API_URL='http://localhost:5000'
 
 //this page has an issue of not loading the default image
-
-interface Props{
-    coverPic: string
-    profilePic: string
-}
 
 const Banner:React.FC = () => {
 
@@ -41,16 +36,14 @@ const Banner:React.FC = () => {
   }
   }
 
-  function handleAddFriend(e:React.MouseEvent<HTMLButtonElement, MouseEvent>):void{
-    e.preventDefault()
+  function handleAddFriend():void{
     dispatch(updateUserAction(
      JSON.parse(`${localStorage.getItem('user')}`),
       {friends:id as string}
     ))
   }
 
-  function handleFollow(e:React.MouseEvent<HTMLButtonElement, MouseEvent>):void{
-    e.preventDefault()
+  function handleFollow():void{
     dispatch(updateUserAction(
      JSON.parse(`${localStorage.getItem('user')}`),
       {followers:id as string}
@@ -85,19 +78,22 @@ const Banner:React.FC = () => {
       </div>
       :
       <div className='banner-btn-container'>
-      <Button variant='outline-primary' className='banner-btn' onClick={(e)=>handleAddFriend(e)} >
+      <Button variant='outline-primary' className='banner-btn' onClick={()=>handleAddFriend()} >
         {isAdded(loggedInUser?.friends as string[],id)?'Unfriend':'Add Friend'}
         </Button>
-      <Button variant='outline-primary' className='banner-btn' onClick={(e)=>handleFollow(e)} >
+      <Button variant='outline-primary' className='banner-btn' onClick={()=>handleFollow()} >
       {isAdded(loggedInUser?.followers as string[],id)?'Unfollow':'Follow'}
       </Button>
       </div>
         
       }
       <div className='banner-description'>
-        <p><span style={{color:'blueviolet'}}><FaSearchLocation /></span> {user.location}</p>
-        <p><span style={{color:'green'}}><FaPhone /></span> {user.phone}</p>
-        <p><span style={{color:''}}><AiOutlineMail /></span> {user.email}</p>
+        <p><span style={{color:'blueviolet'}}><FaSearchLocation /></span> {user.location} 
+        {isLoggedInUser(JSON.parse(`${localStorage.getItem('user')}`),user._id) && <FaEdit style={{cursor:'pointer'}} />}</p>
+        <p><span style={{color:'green'}}><FaPhone /></span> {user.phone} 
+        {isLoggedInUser(JSON.parse(`${localStorage.getItem('user')}`),user._id) && <FaEdit style={{cursor:'pointer'}} />}</p>
+        <p><span style={{color:''}}><AiOutlineMail /></span> {user.email} 
+        {isLoggedInUser(JSON.parse(`${localStorage.getItem('user')}`),user._id) && <FaEdit style={{cursor:'pointer'}} />}</p>
       </div>
       <Link to='/' className='btn btn-outline-primary banner-btn'>Back Home</Link>
       </div>
