@@ -1,6 +1,6 @@
 import React,{useEffect, useState} from 'react'
 import './Banner.css'
-import {Button} from 'react-bootstrap'
+import {Button, Form} from 'react-bootstrap'
 import {FaSearchLocation,FaPhone,FaEdit} from 'react-icons/fa'
 import { useParams } from "react-router-dom";
 import {useDispatch} from 'react-redux'
@@ -25,6 +25,20 @@ const Banner:React.FC = () => {
 
   const [show, setShow] = useState<boolean>(false)
   const [imgType, setImgType] = useState<string>('')
+  const [edit, setEdit] = useState<boolean>(false)
+  const [edit1, setEdit1] = useState<boolean>(false)
+  const [edit2, setEdit2] = useState<boolean>(false)
+  const [values, setvalues] = useState({
+    location:user.location,
+    phone:user.phone,
+    email:user.email,
+  })
+
+  const {location,phone,email}=values
+
+  function handleUpdateChange(e:React.ChangeEvent<HTMLInputElement>){
+    setvalues({...values,[e.target.name]:e.target.value})
+  }
 
   function handleShow(arg:string):void {
   if(arg==='profile'){
@@ -48,6 +62,28 @@ const Banner:React.FC = () => {
      JSON.parse(`${localStorage.getItem('user')}`),
       {followers:id as string}
     ))
+  }
+
+  function handleUpdate(arg:string):void{
+     if(arg==='location'){
+      dispatch(updateUserAction(
+        JSON.parse(`${localStorage.getItem('user')}`),
+         {location:location as string}
+       ))
+       setEdit(false)
+     }else if(arg==='phone'){
+      dispatch(updateUserAction(
+        JSON.parse(`${localStorage.getItem('user')}`),
+         {phone:phone as string}
+       ))
+       setEdit1(false)
+     }else if(arg==='email'){
+      dispatch(updateUserAction(
+        JSON.parse(`${localStorage.getItem('user')}`),
+         {email:email as string}
+       ))
+       setEdit2(false)
+     }
   }
 
  
@@ -88,12 +124,66 @@ const Banner:React.FC = () => {
         
       }
       <div className='banner-description'>
-        <p><span style={{color:'blueviolet'}}><FaSearchLocation /></span> {user.location} 
-        {isLoggedInUser(JSON.parse(`${localStorage.getItem('user')}`),user._id) && <FaEdit style={{cursor:'pointer'}} />}</p>
+        {
+          edit?
+          <Form className='banner-form'>
+          <Form.Group className="mb-3">
+            <Form.Control className='input' type="text" name="location" value={location} onChange={handleUpdateChange} placeholder="Enter location" />
+          </Form.Group>
+          <Form.Group className="mb-3">
+          <Button variant="outline-primary" className='banner-btn' type="button" onClick={()=>handleUpdate('location')}>
+            Update
+          </Button>
+          <Button variant="outline-primary" className='banner-btn' type="button" onClick={()=>setEdit(prev=>!prev)}>
+          Cancel
+         </Button>
+          </Form.Group>
+          </Form>
+          :
+         <p><span style={{color:'blueviolet'}}><FaSearchLocation /></span> {user.location} 
+        {isLoggedInUser(JSON.parse(`${localStorage.getItem('user')}`),user._id) && 
+        <FaEdit style={{cursor:'pointer'}} onClick={()=>setEdit(prev=>!prev)} />}</p>
+        }
+        {
+          edit1?
+          <Form className='banner-form'>
+        <Form.Group className="mb-3">
+          <Form.Control className='input' type="text" name="phone" value={phone} onChange={handleUpdateChange} placeholder="Enter phone" />
+        </Form.Group>
+        <Form.Group className="mb-3">
+        <Button variant="outline-primary" className='banner-btn' type="submit" onClick={()=>handleUpdate('phone')}>
+          Update
+        </Button>
+        <Button variant="outline-primary" className='banner-btn' type="button" onClick={()=>setEdit1(prev=>!prev)}>
+          Cancel
+         </Button>
+        </Form.Group>
+        </Form>
+          :
         <p><span style={{color:'green'}}><FaPhone /></span> {user.phone} 
-        {isLoggedInUser(JSON.parse(`${localStorage.getItem('user')}`),user._id) && <FaEdit style={{cursor:'pointer'}} />}</p>
+        {isLoggedInUser(JSON.parse(`${localStorage.getItem('user')}`),user._id) && 
+        <FaEdit style={{cursor:'pointer'}} onClick={()=>setEdit1(prev=>!prev)} />}</p>
+        }
+        {
+          edit2?
+          <Form className='banner-form'>
+        <Form.Group className="mb-3">
+          <Form.Control className='input' type="email" name="email" value={email} onChange={handleUpdateChange} placeholder="Enter email" />
+        </Form.Group>
+        <Form.Group className="mb-3">
+        <Button variant="outline-primary" className='banner-btn' type="submit" onClick={()=>handleUpdate('email')}>
+          Update
+        </Button>
+        <Button variant="outline-primary" className='banner-btn' type="button" onClick={()=>setEdit2(prev=>!prev)}>
+          Cancel
+         </Button>
+        </Form.Group>
+        </Form>
+          :
         <p><span style={{color:''}}><AiOutlineMail /></span> {user.email} 
-        {isLoggedInUser(JSON.parse(`${localStorage.getItem('user')}`),user._id) && <FaEdit style={{cursor:'pointer'}} />}</p>
+        {isLoggedInUser(JSON.parse(`${localStorage.getItem('user')}`),user._id) && 
+        <FaEdit style={{cursor:'pointer'}} onClick={()=>setEdit2(prev=>!prev)} />}</p>
+        }
       </div>
       <Link to='/' className='btn btn-outline-primary banner-btn'>Back Home</Link>
       </div>

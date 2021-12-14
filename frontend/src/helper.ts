@@ -37,8 +37,6 @@
 
 
  export function getImageUrl(url:string|undefined,type:string):string{
-    console.log(url);
-    
    return url?`${API_URL}/${url}`:type==='cover'?'images/cover.jpg':'images/sample-profile-pic.png'
  }
 
@@ -50,6 +48,6 @@
 
 
 export function isAdded(list:string[],currentUserId:string|undefined):boolean{
-   return list.some(itm=>itm===currentUserId)
+   return list?.some(itm=>itm===currentUserId)
 }
 
