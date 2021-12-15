@@ -6,7 +6,7 @@ import { User } from 'src/user/schema/user.schema';
 export type PostDocument =Post & mongoose.Document
 
 
-@Schema()
+@Schema({timestamps:true})
 export class Post{
     // @Prop({required:true})
     // title:string
@@ -28,9 +28,6 @@ export class Post{
 
     @Prop()
     image:string
-
-    @Prop({default:Date.now()})
-    createdAt:Date
    
 }
 

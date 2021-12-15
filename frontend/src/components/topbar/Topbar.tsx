@@ -23,8 +23,14 @@ export const Topbar = () => {
     
     async function submit(e:React.MouseEvent<HTMLButtonElement, MouseEvent>){
         e.preventDefault()
+        if(!image ||image==null){
+        dispatch(createPostAction(desc,'',_id as string))
+        setDesc('')
+        }else{
         const {data}=await uploadImage(image!,'post','post')
         data && dispatch(createPostAction(desc,data.file.path,_id as string))
+        setDesc('')
+        }
     }
 
     useEffect(()=>{
@@ -36,7 +42,7 @@ export const Topbar = () => {
            
                     <Form className='topbar-form'>
                         <Form.Group className='topbar-form-group1' controlId="formText">
-                            <Form.Control as='textarea' rows={2} cols={10} id='text' name='desc' onChange={e=>setDesc(e.target.value)}/>                        
+                            <Form.Control as='textarea' rows={2} cols={10} id='text' value={desc} name='desc' onChange={e=>setDesc(e.target.value)}/>                        
                             <Form.Control type='file' id='post' name='image' onChange={handleImage}/>
                         </Form.Group>
                         <Form.Group className='topbar-form-group2'>

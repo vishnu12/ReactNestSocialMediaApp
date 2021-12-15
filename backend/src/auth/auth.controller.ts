@@ -62,7 +62,7 @@ export class AuthController {
         token,
         id:user?._id
       }
-      res.cookie('token',authData).redirect('http://localhost:3000')
+      res.cookie('token',authData).redirect(302,'http://localhost:3000')
       // res.redirect(302,'http://localhost:3000')
 
     }

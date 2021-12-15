@@ -19,7 +19,7 @@ export class UserService {
 
     async findById(id: string) {
         try {
-            const user = await this.userModel.findById(id)
+            const user = await this.userModel.findById(id)                                        
             if (user) return user
         } catch (error) {
             throw new HttpException(`${error}`, 400)
@@ -31,20 +31,30 @@ export class UserService {
             const user = await this.userModel.findById(id)
             if (user) {
                 if (user && data.friends) {
+                    const targetUser=await this.userModel.findById(data.friends)
                     const alreadyAdded = user.friends.some(itm => itm.toString() === data.friends)
                     if (alreadyAdded){
                         user.friends=user.friends.filter(itm => itm.toString() !== data.friends)
+                        targetUser.friends=targetUser.friends.filter(itm => itm.toString() !== id)
+                        await targetUser.save()
                     }else{
                         user.friends = [...user.friends, data.friends]
+                        targetUser.friends = [...targetUser.friends, id as any]
+                        await targetUser.save()
                     }
                     const upadtedUser = await user.save()
                     return upadtedUser
-                } else if (user && data.followers) {
-                    const alreadyAdded = user.followers.some(itm => itm.toString() === data.followers)
+                } else if (user && data.following) {
+                    const targetUser=await this.userModel.findById(data.following)
+                    const alreadyAdded = user.following.some(itm => itm.toString() === data.following)
                     if (alreadyAdded){
-                        user.followers=user.followers.filter(itm => itm.toString() !== data.followers)
+                        user.following=user.following.filter(itm => itm.toString() !== data.following)
+                        targetUser.followers=targetUser.followers.filter(itm => itm.toString() !== id)
+                        await targetUser.save()
                     }else{
-                        user.followers = [...user.friends, data.followers]
+                        user.following = [...user.following, data.following]
+                        targetUser.followers = [...targetUser.followers, id as any]
+                        await targetUser.save()
                     }
                     const upadtedUser = await user.save()
                     return upadtedUser

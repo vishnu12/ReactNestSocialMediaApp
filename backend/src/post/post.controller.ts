@@ -3,7 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { IRequest } from 'src/auth/types/types';
-import { RolesGuard } from 'src/post/guards/roles.guard';
+import { RolesGuard } from 'src/user/guards/roles.guard';
 import { fileFilter, filename } from 'src/utils/fileUpload';
 import { CreatePostDto, UpdatePostDto } from './dto/post.dto';
 import { PostService } from './post.service';
@@ -21,11 +21,13 @@ export class PostController {
     }
 
     @Get()
+    @UseGuards(AuthGuard('jwt'))
     getAllPosts(){
       return this.postService.getAllPosts()
     }
 
     @Get('/:id')
+    @UseGuards(AuthGuard('jwt'))
     getPosts(
       @Param('id') id:string
     ){
@@ -41,14 +43,6 @@ export class PostController {
        return this.postService.updatePost(id,data)
     }
     
-    @Delete('/:id')
-    @UseGuards(AuthGuard('jwt'),RolesGuard)
-    deletePost(
-      @Param('id') id:string
-    ){
-      console.log('yes');
-      // return await this.postService.deletePost(id)
-    }
 
     @Post('/upload')
     @UseGuards(AuthGuard('jwt'))

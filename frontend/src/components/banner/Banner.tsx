@@ -60,7 +60,7 @@ const Banner:React.FC = () => {
   function handleFollow():void{
     dispatch(updateUserAction(
      JSON.parse(`${localStorage.getItem('user')}`),
-      {followers:id as string}
+      {following:id as string}
     ))
   }
 
@@ -105,7 +105,12 @@ const Banner:React.FC = () => {
           <img className='profile-img' src={getImageUrl(user.profilepic,'profile')} alt="profile-img" />
       </div>
       <div className='banner-details'>
-            <h1>{user.name}</h1>
+        <h1>{user.name}</h1>
+            <div className='banner-details-top'>
+            <p>{user.followers?.length===1?`${user.followers.length} follower`:`${user.followers?.length} followers`}</p>
+            <p>{user.following?.length} following</p>
+            <p>{user.friends?.length===1?`${user.friends.length} friend`:`${user.friends?.length} friends`}</p>
+            </div>
       {
         isLoggedInUser(JSON.parse(`${localStorage.getItem('user')}`),user._id)?
         <div className='banner-btn-container'>
@@ -118,7 +123,7 @@ const Banner:React.FC = () => {
         {isAdded(loggedInUser?.friends as string[],id)?'Unfriend':'Add Friend'}
         </Button>
       <Button variant='outline-primary' className='banner-btn' onClick={()=>handleFollow()} >
-      {isAdded(loggedInUser?.followers as string[],id)?'Unfollow':'Follow'}
+      {isAdded(loggedInUser?.following as string[],id)?'Unfollow':'Follow'}
       </Button>
       </div>
         

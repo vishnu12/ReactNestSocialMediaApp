@@ -46,7 +46,7 @@ export const Post:React.FC<PostProps> = ({post}) => {
     useEffect(()=>{
          if(success && commented){
             setComment('')
-            console.log(post)
+            setCommented(false)
             navigate(`/posts/${updatedPost._id}`)
          }
     },[success,updatedPost])
@@ -69,9 +69,11 @@ export const Post:React.FC<PostProps> = ({post}) => {
             {
                 post.description && 
                 <div className='content'>
-             <p>
+              <Link to={`/posts/${post._id}`} style={{textDecoration:'none',color:'#000'}}>
+              <p>
                  {post.description}
              </p>
+             </Link>
                </div>
             }
 

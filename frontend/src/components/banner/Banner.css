@@ -38,9 +38,21 @@
    
 }
 
+.banner-details .banner-details-top{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner-details .banner-details-top p{
+    margin: 0 5px;
+}
+
 .banner-btn-container{
     display: flex;
 }
+
 
 .banner-btn{
   margin:5px 5px;
