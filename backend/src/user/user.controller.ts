@@ -13,11 +13,19 @@ export class UserController {
     constructor(private readonly userService:UserService){}
 
     @Get('/:id')
+    @UseGuards(AuthGuard('jwt'))
     findById(@Param('id') id:string):Promise<CreatedUserDto>{
         return this.userService.findById(id);
     }
 
+    @Get('/:id/friends')
+    @UseGuards(AuthGuard('jwt'))
+    getFriends(@Param('id') id:string):Promise<any>{
+        return this.userService.getFriends(id);
+    }
+
     @Put('/:id')
+    @UseGuards(AuthGuard('jwt'))
     update(@Param('id') id:string, @Body() data:UpdateUserDto):Promise<RegisterDto>{
        return this.userService.findAndUpdate(id, data);
     }

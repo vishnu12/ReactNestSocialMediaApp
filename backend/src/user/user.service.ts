@@ -19,8 +19,17 @@ export class UserService {
 
     async findById(id: string) {
         try {
-            const user = await this.userModel.findById(id)                                        
+            const user = await this.userModel.findById(id)                                       
             if (user) return user
+        } catch (error) {
+            throw new HttpException(`${error}`, 400)
+        }
+    }
+
+   async getFriends(id: string): Promise<any> {
+        try {
+            const user = await this.userModel.findById(id).populate('friends','name profilepic')
+            return user.friends
         } catch (error) {
             throw new HttpException(`${error}`, 400)
         }

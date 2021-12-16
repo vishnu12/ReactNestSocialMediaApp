@@ -2,7 +2,13 @@ import {createStore,combineReducers,applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
 import {TypedUseSelectorHook,useSelector as useStoreSelector} from 'react-redux'
 import {composeWithDevTools} from 'redux-devtools-extension'
-import { userLoginReducer, userRegisterReducer,getUserReducer, updateUserReducer,getLoggedInUserReducer } from './reducers/user'
+import { userLoginReducer, 
+        userRegisterReducer,
+        getUserReducer, 
+        updateUserReducer,
+        getLoggedInUserReducer,
+        getFriendsReducer,
+      } from './reducers/user'
 import { createPostReducer,getPostReducer,updatePostReducer,getPostByIdReducer } from './reducers/post'
 
 
@@ -16,7 +22,8 @@ const rootReducer=combineReducers({
    createPost:createPostReducer,
    getPosts:getPostReducer,
    updatePost:updatePostReducer,
-   getPostById:getPostByIdReducer
+   getPostById:getPostByIdReducer,
+   getFriends:getFriendsReducer,
 })
 
 export type RootState=ReturnType<typeof rootReducer>

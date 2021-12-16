@@ -17,7 +17,10 @@ import {
     USER_UPDATE_REQUEST,
     GET_LOGGEDIN_USER_FAIL,
     GET_LOGGEDIN_USER_SUCCESS,
-    GET_LOGGEDIN_USER_REQUEST
+    GET_LOGGEDIN_USER_REQUEST,
+    GET_FRIENDS_FAIL,
+    GET_FRIENDS_REQUEST,
+    GET_FRIENDS_SUCCESS
 } from '../constants/user'
 
 export interface UserState{
@@ -29,6 +32,13 @@ export interface UserState{
 
 export interface UserUpdateState{
   user:UserUpdateData,
+  loading?:boolean,
+  error?:boolean,
+  success?:boolean
+}
+
+export interface FriendsState{
+  friends:{_id:string,name:string,profilepic:string}[],
   loading?:boolean,
   error?:boolean,
   success?:boolean
@@ -47,6 +57,13 @@ const initialupdateState:UserUpdateState={
     loading:false,
     error:false,
     success:false,
+}
+
+const initialStateFriends:FriendsState={
+  friends:[],
+  loading:false,
+  error:false,
+  success:false,
 }
 
 export const userLoginReducer=(state=initialState,action:AnyAction)=>{
@@ -197,3 +214,31 @@ export const userRegisterReducer=(state=initialState,action:AnyAction)=>{
         return state;
     }
  }
+
+
+  export const getFriendsReducer=(state=initialStateFriends,action:AnyAction)=>{
+    switch (action.type) {
+      case GET_FRIENDS_REQUEST:
+        return {
+          ...state,
+          loading:true
+        }
+        case GET_FRIENDS_SUCCESS:
+          return {
+            ...state,
+            loading:false,
+            success:true,
+            friends:action.payload as {_id:string,name:string,profilepic:string}[]
+          } 
+
+          case GET_FRIENDS_FAIL:
+          return {
+            ...state,
+            loading:false,
+            error:true
+          } 
+    
+      default:
+        return state;
+    }
+  } 

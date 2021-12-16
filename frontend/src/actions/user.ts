@@ -17,7 +17,10 @@ import {
     USER_UPDATE_SUCCESS,
     GET_LOGGEDIN_USER_FAIL,
     GET_LOGGEDIN_USER_REQUEST,
-    GET_LOGGEDIN_USER_SUCCESS
+    GET_LOGGEDIN_USER_SUCCESS,
+    GET_FRIENDS_FAIL,
+    GET_FRIENDS_REQUEST,
+    GET_FRIENDS_SUCCESS
 } from '../constants/user'
 import { RootState } from '../store'
 import { NavigateFunction } from 'react-router'
@@ -80,6 +83,19 @@ export const getUserAction =
         }
     }
 
+
+
+export const getFriendsAction =
+    (id:string): ThunkAction<void, RootState, undefined, AnyAction> => async (dispatch) => {
+        dispatch({ type: GET_FRIENDS_REQUEST })
+        try {
+            const { data } = await axios.get(API_URL + '/user/'+id+'/friends')
+            dispatch({ type: GET_FRIENDS_SUCCESS, payload: data })
+
+        } catch (error) {
+            dispatch({ type: GET_FRIENDS_FAIL })
+        }
+    }
 
     export const getLoggedInUserAction =
     (id:string): ThunkAction<void, RootState, undefined, AnyAction> => async (dispatch) => {
