@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Form, Button } from 'react-bootstrap'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom'
 import {useSelector} from '../../store'
 import {useNavigate} from 'react-router-dom'
@@ -52,13 +54,14 @@ const Register: React.FC = () => {
 
     useEffect(()=>{
         if(success){
-            alert('Registered Successfully')
             navigate('/login')
             dispatch({type:USER_REGISTER_RESET})
         }
     },[success])
 
     return (
+        <>
+        <ToastContainer position='top-right' autoClose={5000} />
         <div className='register-form'>
             <Form className='form'>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -85,6 +88,7 @@ const Register: React.FC = () => {
                 <p>Already have an account? <Link style={{ textDecoration: 'none' }} to='/login'>Login Here!!</Link></p>
             </Form>
         </div>
+        </>
     )
 }
 

@@ -2,13 +2,17 @@ import { Body, Controller, Get, Post,Req,Res,UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Response } from 'express';
 import { CreatedUserDto, RegisterDto } from 'src/user/dto/user.dto';
+import { UserService } from 'src/user/user.service';
 import { AuthService } from './auth.service';
 import { IRequest, ResData } from './types/types';
 
 @Controller()
 export class AuthController {
 
-    constructor(private readonly authService:AuthService){}
+    constructor(
+      private readonly authService:AuthService,
+      private readonly userService:UserService,
+      ){}
 
     @Post('auth/register')
     async register(
@@ -57,6 +61,14 @@ export class AuthController {
         oAuthUser:true,
         profilepic:req.user.picture
       } as RegisterDto
+      const userExixts=await this.userService.findOne(req.user.email)
+      if(userExixts){
+       const authData:ResData={
+        token,
+        id:userExixts._id
+       }
+       return res.cookie('token',authData).redirect(302,'http://localhost:3000')
+      }
       const user=await this.authService.register(body)
       const authData:ResData={
         token,

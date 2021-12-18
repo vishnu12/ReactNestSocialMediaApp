@@ -1,6 +1,8 @@
 import React,{useState,useEffect} from 'react'
 import './Post.css'
 import {AiFillLike,AiFillDislike} from 'react-icons/ai'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 import {useDispatch} from 'react-redux'
 import {Form,Button} from 'react-bootstrap'
 import {useNavigate} from 'react-router-dom'
@@ -52,6 +54,8 @@ export const Post:React.FC<PostProps> = ({post}) => {
     },[success,updatedPost])
 
     return (
+        <>
+        <ToastContainer position='top-right' autoClose={5000} />
         <div className='post-main'>
             <div className='post-top'>
               <img src={getImageUrl(post.postedBy?.profilepic as string,'profile')} alt="profilepic" />
@@ -96,5 +100,6 @@ export const Post:React.FC<PostProps> = ({post}) => {
             </div>
            
         </div>
+        </>
     )
 }

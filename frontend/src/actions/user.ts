@@ -1,6 +1,7 @@
 import { AnyAction } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import axios from 'axios'
+import {toast} from 'react-toastify'
 import {
     USER_LOGIN_FAIL,
     USER_LOGIN_SUCCESS,
@@ -40,8 +41,9 @@ export const loginAction =
             const {data}=await axios.post(API_URL + '/auth/login', { email, password })
             dispatch({ type: USER_LOGIN_SUCCESS})
 
-        } catch (error) {
-            dispatch({ type: USER_LOGIN_FAIL })
+        } catch (error:any) {
+            dispatch({ type: USER_LOGIN_FAIL,payload:error.message })
+            toast.error("Invalid Credentials")
         }
     }
 
@@ -52,9 +54,11 @@ export const registerAction =
         try {
             const { data } = await axios.post(API_URL + '/auth/register', { name, email, password ,phone,location})
             dispatch({ type: USER_REGISTER_SUCCESS, payload: data })
+            toast.success("Registration Successful")
 
-        } catch (error) {
-            dispatch({ type: USER_REGISTER_FAIL })
+        } catch (error:any) {
+            dispatch({ type: USER_REGISTER_FAIL,payload:error.message })
+            toast.error("Registration Failed")
         }
     }
 
@@ -78,8 +82,8 @@ export const getUserAction =
             const { data } = await axios.get(API_URL + '/user/'+id)
             dispatch({ type: GET_USER_SUCCESS, payload: data })
 
-        } catch (error) {
-            dispatch({ type: GET_USER_FAIL })
+        } catch (error:any) {
+            dispatch({ type: GET_USER_FAIL,payload:error.messge })
         }
     }
 
@@ -92,8 +96,8 @@ export const getFriendsAction =
             const { data } = await axios.get(API_URL + '/user/'+id+'/friends')
             dispatch({ type: GET_FRIENDS_SUCCESS, payload: data })
 
-        } catch (error) {
-            dispatch({ type: GET_FRIENDS_FAIL })
+        } catch (error:any) {
+            dispatch({ type: GET_FRIENDS_FAIL,payload:error.message })
         }
     }
 
@@ -104,8 +108,8 @@ export const getFriendsAction =
             const { data } = await axios.get(API_URL + '/user/'+id)
             dispatch({ type: GET_LOGGEDIN_USER_SUCCESS, payload: data })
 
-        } catch (error) {
-            dispatch({ type: GET_LOGGEDIN_USER_FAIL })
+        } catch (error:any) {
+            dispatch({ type: GET_LOGGEDIN_USER_FAIL,payload:error.message })
         }
     }    
 
@@ -116,7 +120,7 @@ export const updateUserAction =
         const { data } = await axios.put(API_URL + '/user/'+id,updateData)
         dispatch({ type: USER_UPDATE_SUCCESS, payload: data })
         
-    } catch (error) {
-        dispatch({ type: USER_UPDATE_FAIL })
+    } catch (error:any) {
+        dispatch({ type: USER_UPDATE_FAIL,payload:error.message })
     }
 }    

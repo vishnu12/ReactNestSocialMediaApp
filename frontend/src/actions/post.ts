@@ -1,5 +1,6 @@
 import { AnyAction } from 'redux'
 import { ThunkAction } from 'redux-thunk'
+import { toast } from 'react-toastify'
 import axios from 'axios'
 import {
     CREATE_POST_REQUEST,
@@ -29,9 +30,11 @@ export const createPostAction =
         try {
             const {data}=await axios.post(API_URL + '/posts/create', { description, image ,postedBy })
             dispatch({ type: CREATE_POST_SUCCESS,payload:data })
+            toast.success("Post Created")
 
-        } catch (error) {
-            dispatch({ type: CREATE_POST_FAIL })
+        } catch (error:any) {
+            dispatch({ type: CREATE_POST_FAIL,payload:error.message })
+            toast.error("Post Creation Failed")
         }
     }
 
@@ -43,8 +46,8 @@ export const createPostAction =
             const {data}=await axios.get(API_URL + '/posts')
             dispatch({ type: GET_POST_SUCCESS,payload:data })
 
-        } catch (error) {
-            dispatch({ type: GET_POST_FAIL })
+        } catch (error:any) {
+            dispatch({ type: GET_POST_FAIL,payload:error.message })
         }
     }  
 
@@ -56,8 +59,8 @@ export const createPostAction =
             const {data}=await axios.get(API_URL + '/posts/'+id)
             dispatch({ type: GET_POST_BY_ID_SUCCESS,payload:data })
 
-        } catch (error) {
-            dispatch({ type: GET_POST_BY_ID_FAIL })
+        } catch (error:any) {
+            dispatch({ type: GET_POST_BY_ID_FAIL,payload:error.message })
         }
     }  
     
@@ -70,7 +73,8 @@ export const createPostAction =
             const {data}=await axios.put(API_URL + '/posts/'+id,updateData)
             dispatch({ type: UPDATE_POST_SUCCESS,payload:data })
 
-        } catch (error) {
-            dispatch({ type: UPDATE_POST_FAIL })
+        } catch (error:any) {
+            dispatch({ type: UPDATE_POST_FAIL,payload:error.message })
+            toast.error(`Operation failed due to ${error.message} error`)
         }
     }  

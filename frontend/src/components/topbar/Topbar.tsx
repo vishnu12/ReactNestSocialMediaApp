@@ -1,5 +1,7 @@
 import React,{useState,useEffect, ReactText} from 'react'
 import {useDispatch} from 'react-redux'
+import { ToastContainer,toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 import {useSelector} from '../../store'
 import { Form,Button } from 'react-bootstrap'
 import { uploadImage } from '../../helper'
@@ -23,6 +25,10 @@ export const Topbar = () => {
     
     async function submit(e:React.MouseEvent<HTMLButtonElement, MouseEvent>){
         e.preventDefault()
+        if(!image && !desc){
+           toast.warning('Please select an image or write a description')
+           return
+        }
         if(!image ||image==null){
         dispatch(createPostAction(desc,'',_id as string))
         setDesc('')
@@ -38,6 +44,8 @@ export const Topbar = () => {
     },[post,dispatch])
 
     return (
+        <>
+        <ToastContainer position='top-right' autoClose={5000} />
         <div className='topbar-main'>
            
                     <Form className='topbar-form'>
@@ -51,5 +59,6 @@ export const Topbar = () => {
                     </Form>
         
         </div>
+        </>
     )
 }

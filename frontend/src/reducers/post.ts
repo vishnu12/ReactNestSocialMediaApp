@@ -20,35 +20,35 @@ interface CreatePostState {
     post:Post
     loading?: boolean;
     success?: boolean;
-    error?:boolean
+    error?:string
 }
 
 interface GetPostState {
     posts:Post[],
     loading?: boolean;
     success?: boolean;
-    error?:boolean
+    error?:string
 }
 
 interface UpdatePostState{
     post:PostUpdate
     loading?: boolean;
     success?: boolean;
-    error?:boolean
+    error?:string
 }
 
 const initialStateCreate: CreatePostState = {
     post:{},
     loading: false,
     success: false,
-    error:false
+    error:''
 }
 
 const initialStateGet: GetPostState = {
     posts:[],
     loading: false,
     success: false,
-    error:false
+    error:''
 }
 
 
@@ -56,7 +56,7 @@ const initialStateUpdate: UpdatePostState = {
     post:{},
     loading: false,
     success: false,
-    error:false
+    error:''
 }
 
 export const createPostReducer = (state = initialStateCreate, action:AnyAction) => {
@@ -71,7 +71,8 @@ export const createPostReducer = (state = initialStateCreate, action:AnyAction) 
                 ...state,
                 loading:false,
                 post:action.payload as Post,
-                success:true
+                success:true,
+                error:''
           }     
           
           
@@ -79,7 +80,7 @@ export const createPostReducer = (state = initialStateCreate, action:AnyAction) 
         return{
             ...state,
             loading:false,
-            error:true
+            error:action.payload
         }
       default:
           return state;
@@ -99,7 +100,8 @@ export const getPostReducer = (state = initialStateGet, action:AnyAction) => {
             return{
                   ...state,
                   loading:false,
-                  posts:action.payload as Post[]
+                  posts:action.payload as Post[],
+                  error:''
             }     
             
             
@@ -107,7 +109,7 @@ export const getPostReducer = (state = initialStateGet, action:AnyAction) => {
           return{
               ...state,
               loading:false,
-              error:true
+              error:action.payload
           }
         default:
             return state;
@@ -126,7 +128,8 @@ export const getPostReducer = (state = initialStateGet, action:AnyAction) => {
             return{
                   ...state,
                   loading:false,
-                  post:action.payload as Post
+                  post:action.payload as Post,
+                  error:''
             }     
             
             
@@ -134,7 +137,7 @@ export const getPostReducer = (state = initialStateGet, action:AnyAction) => {
           return{
               ...state,
               loading:false,
-              error:true
+              error:action.payload
           }
         default:
             return state;
@@ -154,7 +157,8 @@ export const getPostReducer = (state = initialStateGet, action:AnyAction) => {
                   ...state,
                   loading:false,
                   post:action.payload as PostUpdate,
-                  success:true
+                  success:true,
+                  error:''
             }     
             
             
@@ -162,7 +166,7 @@ export const getPostReducer = (state = initialStateGet, action:AnyAction) => {
           return{
               ...state,
               loading:false,
-              error:true
+              error:action.payload
           }
 
       case UPDATE_POST_RESET:

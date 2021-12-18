@@ -1,6 +1,8 @@
 import React,{useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 import { Form ,Button} from 'react-bootstrap'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 import {useNavigate} from 'react-router-dom'
 import {FaGoogle} from 'react-icons/fa'
 import {useSelector} from '../../store'
@@ -8,7 +10,6 @@ import {useDispatch} from 'react-redux'
 import './Login.css'
 import { loginAction } from '../../actions/user'
 import {readDataFromCookie} from '../../helper'
-
 
 
 interface LoginInput{
@@ -38,7 +39,6 @@ export const Login:React.FC = () => {
   function handleNormalLogin(e:React.MouseEvent<HTMLButtonElement, MouseEvent>){
     e.preventDefault()
     dispatch(loginAction(email,password))
-    
   }
 
  function handleGoogleLogin(e:React.MouseEvent<HTMLButtonElement, MouseEvent>){
@@ -55,6 +55,8 @@ export const Login:React.FC = () => {
 
   
     return (
+      <>
+      <ToastContainer position='top-right' autoClose={5000} />
         <div className='login-form'>
     <Form className='form'>
   <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -73,5 +75,6 @@ export const Login:React.FC = () => {
   </Button>
 </Form> 
         </div>
+        </>
     )
 }

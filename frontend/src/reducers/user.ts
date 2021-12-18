@@ -26,28 +26,28 @@ import {
 export interface UserState{
     user:UserData,
     loading?:boolean,
-    error?:boolean,
+    error?:string,
     success?:boolean
 }
 
 export interface UserUpdateState{
   user:UserUpdateData,
   loading?:boolean,
-  error?:boolean,
+  error?:string,
   success?:boolean
 }
 
 export interface FriendsState{
   friends:{_id:string,name:string,profilepic:string}[],
   loading?:boolean,
-  error?:boolean,
+  error?:string,
   success?:boolean
 }
 
 const initialState:UserState={
     user:{},
     loading:false,
-    error:false,
+    error:'',
     success:false,
 
 }
@@ -55,14 +55,14 @@ const initialState:UserState={
 const initialupdateState:UserUpdateState={
     user:{},
     loading:false,
-    error:false,
+    error:'',
     success:false,
 }
 
 const initialStateFriends:FriendsState={
   friends:[],
   loading:false,
-  error:false,
+  error:'',
   success:false,
 }
 
@@ -79,14 +79,14 @@ export const userLoginReducer=(state=initialState,action:AnyAction)=>{
             ...state,
             loading:false,
             success:true,
-            error:false
-      
+            error:''
+            
         }
       case USER_LOGIN_FAIL:
         return{
             ...state,
             loading:false,
-            error:true
+            error:action.payload
         }
 
       case USER_LOGOUT:
@@ -95,7 +95,7 @@ export const userLoginReducer=(state=initialState,action:AnyAction)=>{
             user:null,
             loading:false,
             success:false,
-            error:false
+            error:''
         }
       default:
         return state
@@ -116,12 +116,13 @@ export const userRegisterReducer=(state=initialState,action:AnyAction)=>{
                 loading:false,
                 user:action.payload as UserData,
                 success:true,
+                error:''
           }
         case USER_REGISTER_FAIL:
           return{
                 ...state,
                 loading:false,
-                error:true
+                error:action.payload
           }
 
         case USER_REGISTER_RESET:
@@ -148,12 +149,13 @@ export const userRegisterReducer=(state=initialState,action:AnyAction)=>{
           loading:false,
           success:true,
           user:action.payload as UserData,
+          error:''
         }   
      
       case GET_USER_FAIL:
         return{
           ...state,
-          error:true
+          error:action.payload
         }
        default:
          return state;
@@ -173,12 +175,13 @@ export const userRegisterReducer=(state=initialState,action:AnyAction)=>{
        loading:false,
        success:true,
        user:action.payload as UserData,
+       error:''
      }   
   
    case GET_LOGGEDIN_USER_FAIL:
      return{
        ...state,
-       error:true
+       error:action.payload
      }
     default:
       return state;
@@ -201,13 +204,14 @@ export const userRegisterReducer=(state=initialState,action:AnyAction)=>{
             loading:false,
             success:true,
             user:action.payload as UserUpdateData,
+            error:''
           } 
 
           case USER_UPDATE_FAIL:
           return {
             ...state,
             loading:false,
-            error:true
+            error:action.payload
           } 
     
       default:
@@ -228,14 +232,15 @@ export const userRegisterReducer=(state=initialState,action:AnyAction)=>{
             ...state,
             loading:false,
             success:true,
-            friends:action.payload as {_id:string,name:string,profilepic:string}[]
+            friends:action.payload as {_id:string,name:string,profilepic:string}[],
+            error:''
           } 
 
           case GET_FRIENDS_FAIL:
           return {
             ...state,
             loading:false,
-            error:true
+            error:action.payload
           } 
     
       default:

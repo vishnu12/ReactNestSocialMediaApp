@@ -2,6 +2,8 @@ import React,{useEffect, useState} from 'react'
 import './Banner.css'
 import {Button, Form} from 'react-bootstrap'
 import {FaSearchLocation,FaPhone,FaEdit} from 'react-icons/fa'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from "react-router-dom";
 import {useDispatch} from 'react-redux'
 import {AiOutlineMail} from 'react-icons/ai'
@@ -98,6 +100,8 @@ const Banner:React.FC = () => {
 
   
   return (
+    <>
+    <ToastContainer position='top-right' autoClose={5000} />
     <div className='banner-main'>
       <ModalContainer show={show} onHide={setShow} type={imgType} />
         <img className='cover-img' src={getImageUrl(user.coverpic,'cover')} alt="cover-img" />
@@ -193,6 +197,7 @@ const Banner:React.FC = () => {
       <Link to='/' className='btn btn-outline-primary banner-btn'>Back Home</Link>
       </div>
       </div>
+      </>
   )
 }
 

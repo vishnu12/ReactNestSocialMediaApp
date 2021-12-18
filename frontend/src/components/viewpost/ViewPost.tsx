@@ -9,7 +9,7 @@ import { Col, Container, Row } from 'react-bootstrap'
 import { Comment } from '../commentbox/Comment'
 
 
-export const ViewPost = () => {
+export const ViewPost:React.FC = () => {
     const {id} = useParams()
     const dispatch=useDispatch()
     const {post}=useSelector(state=>state.getPostById)
@@ -27,7 +27,7 @@ export const ViewPost = () => {
                     <Post post={post} />
                     </Col>
                     <Col md={4}>
-                        <Comment comments={post.comments} />
+                        <Comment comments={post?.comments} />
                     </Col>
                 </Row>
             </Container>

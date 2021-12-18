@@ -19,10 +19,8 @@ export class AuthService {
         try {
           const {email}=body
           const userExists=await this.userModel.findOne({email})
-            if(userExists && !userExists.oAuthUser){
-               throw new HttpException('User already exists',400)
-            }else if(userExists && userExists.oAuthUser){
-                return userExists
+            if(userExists){
+             throw new HttpException(`User with email ${email} already exists`,400)
             }else{
               const newUser=new this.userModel(body)
               const createdUser= await newUser.save()
