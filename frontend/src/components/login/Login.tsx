@@ -1,6 +1,6 @@
 import React,{useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
-import { Form ,Button} from 'react-bootstrap'
+import { Form ,Button, Spinner} from 'react-bootstrap'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import {useNavigate} from 'react-router-dom'
@@ -21,7 +21,9 @@ export const Login:React.FC = () => {
 
   const dispatch=useDispatch()
   const navigate=useNavigate()
-  const {success,loading,error}=useSelector(state=>state.userLogin)
+  const {success,loading}=useSelector(state=>state.userLogin)
+
+  const testLoad=true
 
   const [values, setValues] = useState({
     email: '',
@@ -57,7 +59,9 @@ export const Login:React.FC = () => {
     return (
       <>
       <ToastContainer position='top-right' autoClose={5000} />
-        <div className='login-form'>
+      {loading?<Spinner animation="border" variant="primary" />
+      :
+      <div className='login-form'>
     <Form className='form'>
   <Form.Group className="mb-3" controlId="formBasicEmail">
     <Form.Control className='input' type="email" name="email" placeholder="Enter email" onChange={handleChange} />
@@ -75,6 +79,8 @@ export const Login:React.FC = () => {
   </Button>
 </Form> 
         </div>
+      }
+        
         </>
     )
 }

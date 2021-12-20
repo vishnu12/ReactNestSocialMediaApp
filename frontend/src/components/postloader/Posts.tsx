@@ -5,7 +5,7 @@ import {useSelector} from '../../store'
 import { Post } from '../post/Post'
 import './Posts.css'
 import {UPDATE_POST_RESET} from '../../constants/post'
-import { Link } from 'react-router-dom'
+
 
 export const Posts = () => {
     const dispatch = useDispatch()

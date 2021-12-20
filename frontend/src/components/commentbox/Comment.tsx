@@ -19,7 +19,7 @@ export const Comment:React.FC<CommentProps> = ({comments}) => {
                    return (
                     <Card className='card' body>
                     <div className='card-sub'>
-                    <Link to='/'><img src={getImageUrl(itm?.commentedBy.profilepic,'profile')} alt="profilepic" /></Link>
+                    <Link to={`/profile/${itm.commentedBy._id}`}><img src={getImageUrl(itm?.commentedBy.profilepic,'profile')} alt="profilepic" /></Link>
                     <h5>{itm.commentedBy.name}</h5>
                     </div>
                     <p>{itm.comment}</p>

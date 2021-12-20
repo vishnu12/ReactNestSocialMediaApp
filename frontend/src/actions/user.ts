@@ -25,14 +25,14 @@ import {
 } from '../constants/user'
 import { RootState } from '../store'
 import { NavigateFunction } from 'react-router'
-import { UserData, UserUpdateData } from '../action-types/user'
+import { UserUpdateData } from '../action-types/user'
 
 
 
 
 axios.defaults.withCredentials = true;
 
-const API_URL = 'http://localhost:5000'
+const API_URL=process.env.REACT_APP_API_URL
 
 export const loginAction =
     (email: string, password: string): ThunkAction<void, RootState, undefined, AnyAction> => async (dispatch) => {

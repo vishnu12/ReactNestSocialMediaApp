@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button, Spinner } from 'react-bootstrap'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom'
@@ -24,7 +24,7 @@ interface IUser {
 const Register: React.FC = () => {
 
     const dispatch = useDispatch()
-    const {loading,error,success,user} =useSelector(state=>state.userRegister)
+    const {loading,success} =useSelector(state=>state.userRegister)
     const navigate = useNavigate()
 
     const [values, setValues] = useState({
@@ -48,6 +48,7 @@ const Register: React.FC = () => {
 
     function handleSubmit(e:React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         e.preventDefault()
+        if(!name || !email || !password || !confirmPassword || !phone || !location) return alert('Please fill all the fields')
         if(password!==confirmPassword) return alert('Password and Confirm Password must be same')
         dispatch(registerAction(name,email,password,phone,location))
     }
@@ -62,6 +63,8 @@ const Register: React.FC = () => {
     return (
         <>
         <ToastContainer position='top-right' autoClose={5000} />
+        {loading?<Spinner animation="border" variant="primary" />
+        :
         <div className='register-form'>
             <Form className='form'>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -88,6 +91,8 @@ const Register: React.FC = () => {
                 <p>Already have an account? <Link style={{ textDecoration: 'none' }} to='/login'>Login Here!!</Link></p>
             </Form>
         </div>
+        }
+        
         </>
     )
 }

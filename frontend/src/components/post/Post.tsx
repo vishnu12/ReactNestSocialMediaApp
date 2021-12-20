@@ -12,12 +12,13 @@ import {useSelector} from '../../store'
 import { updatePostAction } from '../../actions/post'
 import { getImageUrl } from '../../helper'
 
-const API_URL='http://localhost:5000'
 
 interface PostProps {
     post:PostType
 }
 export const Post:React.FC<PostProps> = ({post}) => {
+    
+    const API_URL=process.env.REACT_APP_API_URL
 
     const [comment, setComment] = useState('')
     const [commented, setCommented] = useState(false)

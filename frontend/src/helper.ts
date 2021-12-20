@@ -1,7 +1,8 @@
  import Cookies from 'js-cookie';
  import axios from 'axios'
+ import {toast} from 'react-toastify'
 
- const API_URL='http://localhost:5000'
+ const API_URL=process.env.REACT_APP_API_URL
  
  export function readDataFromCookie():void{
     const cookie= Cookies.get('token')?Cookies.get('token')?.split(':')[4].split('}')[0].slice(1,-1):null
@@ -30,14 +31,14 @@
             })
       
     } catch (error) {
-       console.log(error)
+       toast.error('Image Upload Failed')
    
     }
  }
 
 
  export function getImageUrl(url:string|undefined,type:string):string{
-   return url?`${API_URL}/${url}`:type==='cover'?'images/cover.jpg':'images/sample-profile-pic.png'
+   return url?`${API_URL}/${url}`:type==='cover'?'images/cover.jpg':type==='profile'?'images/sample-profile-pic.png':''
  }
 
 

@@ -17,7 +17,7 @@ export const ModalContainer: React.FC<ModalProps> = (props) => {
 
     const dispatch = useDispatch()
     const {user}=useSelector(state=>state.getUser)
-    const {success,loading,error,user:updatedUser}=useSelector(state=>state.updateUser)
+    const {success,user:updatedUser}=useSelector(state=>state.updateUser)
     const [image, setImage] = useState<File>()
 
     function handleImage(e:React.ChangeEvent<HTMLInputElement>){

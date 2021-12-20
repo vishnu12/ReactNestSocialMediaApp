@@ -9,7 +9,7 @@ import { getImageUrl } from '../../helper'
 
 export const Sidebar = () => {
     const dispatch=useDispatch()
-    const {friends,loading,error}=useSelector(state=>state.getFriends)
+    const {friends,loading}=useSelector(state=>state.getFriends)
 
     useEffect(()=>{
         dispatch(getFriendsAction(JSON.parse(`${localStorage.getItem('user')}`)))

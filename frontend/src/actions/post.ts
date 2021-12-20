@@ -22,7 +22,7 @@ import { PostUpdate } from '../action-types/post';
 
 axios.defaults.withCredentials = true;
 
-const API_URL = 'http://localhost:5000'
+const API_URL=process.env.REACT_APP_API_URL
 
 export const createPostAction =
     (description: string, image: string ,postedBy:string): ThunkAction<void, RootState, undefined, AnyAction> => async (dispatch) => {
