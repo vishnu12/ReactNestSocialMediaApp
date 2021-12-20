@@ -141,13 +141,15 @@ const Banner: React.FC = () => {
                   <Form.Group className="mb-3">
                     <Button variant="outline-primary" className='banner-btn' type="button" onClick={() => handleUpdate('location')}>
                       {loading ?
+                      <>
                         <Spinner
                           as="span"
-                          animation="grow"
+                          animation="border"
                           size="sm"
                           role="status"
                           aria-hidden="true"
                         />
+                        </>
                         :
                         'Update'}
                     </Button>
@@ -170,13 +172,15 @@ const Banner: React.FC = () => {
                   <Form.Group className="mb-3">
                     <Button variant="outline-primary" className='banner-btn' type="submit" onClick={() => handleUpdate('phone')}>
                       {loading ?
+                        <>
                         <Spinner
                           as="span"
-                          animation="grow"
+                          animation="border"
                           size="sm"
                           role="status"
                           aria-hidden="true"
                         />
+                        </>
                         :
                         'Update'}
                     </Button>
@@ -199,13 +203,15 @@ const Banner: React.FC = () => {
                   <Form.Group className="mb-3">
                     <Button variant="outline-primary" className='banner-btn' type="submit" onClick={() => handleUpdate('email')}>
                       {loading ?
+                        <>
                         <Spinner
                           as="span"
-                          animation="grow"
+                          animation="border"
                           size="sm"
                           role="status"
                           aria-hidden="true"
                         />
+                        </>
                         :
                         'Update'}
                     </Button>
