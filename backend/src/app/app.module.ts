@@ -11,11 +11,11 @@ import { AppService } from './app.service';
 
 @Module({
   imports: [
-  MongooseModule.forRoot('mongodb://localhost:27017/socialmediaapplication'),
-  // ServeStaticModule.forRoot({
-  //   rootPath: join(__dirname, '..', 'frontend'),
+  MongooseModule.forRoot(`${process.env.ATLAS_URI}`,{useNewUrlParser:true}),
+  ServeStaticModule.forRoot({
+    rootPath: join(__dirname, '..','..', 'build'),
 
-  // }),
+  }),
   UserModule,
   PostModule,
   AuthModule

@@ -67,14 +67,14 @@ export class AuthController {
         token,
         id:userExixts._id
        }
-       return res.cookie('token',authData).redirect(302,'http://localhost:3000')
+       return res.cookie('token',authData).redirect(302,'/')
       }
       const user=await this.authService.register(body)
       const authData:ResData={
         token,
         id:user?._id
       }
-      res.cookie('token',authData).redirect(302,'http://localhost:3000')
+      res.cookie('token',authData).redirect(302,'/')
       // res.redirect(302,'http://localhost:3000')
 
     }
